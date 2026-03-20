@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faisal Ibrahim Al-Tuwaijri | فيصل بن إبراهيم التويجري - Official Personal Site</title>
+    <link rel="icon" type="image/png" href="fbt_icon.png"> <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <style>
+        :root {
+            --primary-color: #f1ebd8; /* بيج فاتح فخم */
+            --secondary-color: #2c2a27; /* بني داكن جداً - فخامة */
+            --accent-color: #b59410; /* ذهبي معتق */
+            --text-color-light: #fff;
+            --text-color-dark: #333;
+            --font-ar: 'Cairo', sans-serif;
+            --font-en: 'Playfair Display', serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--secondary-color);
+            color: var(--text-color-light);
+            font-family: var(--font-ar);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* ---------------- Hero Section ---------------- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--secondary-color) 0%, #1e1d1b 100%);
+            position: relative;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, var(--secondary-color));
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        .hero-title {
+            font-size: 5rem;
+            font-family: var(--font-en);
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: -2px;
+            color: var(--primary-color);
+            line-height: 1;
+        }
+
+        .hero-title span {
+            color: var(--accent-color);
+        }
+
+        .hero-subtitle {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-top: 20px;
+            color: var(--text-color-light);
+        }
+
+        .hero-tagline {
+            font-size: 1.2rem;
+            margin-top: 15px;
+            color: #aaa;
+        }
+
+        .hero-btn {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 15px 40px;
+            background-color: transparent;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .hero-btn:hover {
+            background-color: var(--accent-color);
+            color: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+
+        /* ---------------- About Section ---------------- */
+        .about {
+            padding: 100px 20px;
+            background-color: #fff;
+            color: var(--text-color-dark);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 70px;
+        }
+
+        .section-header h2 {
+            font-size: 3rem;
+            color: var(--secondary-color);
+            font-family: var(--font-en);
+            margin: 0;
+            display: inline-block;
+            position: relative;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            right: 0;
+            width: 60px;
+            height: 4px;
+            background-color: var(--accent-color);
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: #666;
+            margin-top: 25px;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-text {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: #444;
+        }
+
+        .about-text strong {
+            color: var(--accent-color);
+        }
+
+        .about-image {
+            width: 100%;
+            height: 400px;
+            background-color: var(--secondary-color);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 4rem;
+            color: var(--primary-color);
+            font-family: var(--font-en);
+            font-weight: 700;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* ---------------- Projects Section ---------------- */
+        .projects {
+            padding: 100px 20px;
+            background-color: var(--secondary-color);
+        }
+
+        .projects .section-header h2,
+        .projects .section-header p {
+            color: var(--text-color-light);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .project-title {
+            font-size: 1.8rem;
+            font-family: var(--font-en);
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .project-desc {
+            margin-top: 15px;
+            font-size: 1.05rem;
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        .project-tag {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 5px 15px;
+            background-color: rgba(181, 148, 16, 0.2);
+            color: var(--accent-color);
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 20px;
+        }
+
+        .project-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 700;
+            border-bottom: 2px solid var(--accent-color);
+            transition: all 0.3s ease;
+        }
+
+        .project-link:hover {
+            letter-spacing: 1px;
+            color: var(--accent-color);
+        }
+
+        /* ---------------- Contact Section ---------------- */
+        .contact {
+            padding: 100px 20px;
+            background-color: #fff;
+            color: var(--text-color-dark);
+            text-align: center;
+        }
+
+        .contact-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-header p {
+            color: #666;
+            margin-top: 15px;
+        }
+
+        .contact-links {
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .contact-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 30px;
+            background-color: var(--secondary-color);
+            color: var(--text-color-light);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-btn:hover {
+            background-color: var(--accent-color);
+            color: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+
+        /* ---------------- Footer ---------------- */
+        footer {
+            background-color: var(--secondary-color);
+            color: #999;
+            padding: 50px 20px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        footer strong {
+            color: var(--primary-color);
+            font-family: var(--font-en);
+        }
+
+        /* ---------------- Responsive Styles ---------------- */
+        @media (max-width: 992px) {
+            .hero-title { font-size: 4rem; }
+            .hero-subtitle { font-size: 1.8rem; }
+            .about-grid { grid-template-columns: 1fr; }
+            .section-header h2 { font-size: 2.5rem; }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 3rem; }
+            .hero-subtitle { font-size: 1.5rem; }
+            .section-header h2 { font-size: 2rem; }
+            .contact-links { flex-direction: column; align-items: center; }
+        }
+
+        /* LTR Styles */
+        html[dir="ltr"] body {
+            font-family: var(--font-en);
+        }
+        
+        html[dir="ltr"] .hero-title, html[dir="ltr"] .section-header h2, html[dir="ltr"] .project-title {
+            font-family: var(--font-en);
+        }
+
+        html[dir="ltr"] .hero-subtitle, html[dir="ltr"] .about-text {
+            font-family: var(--font-en);
+        }
+    </style>
+</head>
+<body onload="AOS.init({duration: 1200});">
+
+    <section id="hero" class="hero">
+        <div class="hero-content" data-aos="fade-up">
+            <h1 class="hero-title"><span>F</span> Faisal <span>I</span> Ibrahim <span>T</span> Al-Tuwaijri</h1>
+            <p class="hero-subtitle">فيصل بن إبراهيم التويجري</p>
+            <p class="hero-tagline">Consultant. Visionary. Entrepreneur.</p>
+            <a href="#about" class="hero-btn">اكتشف المزيد | Explore</a>
+        }
+    </section>
+
+    <section id="about" class="about" data-aos="fade-up">
+        <div class="container">
+            <div class="section-header">
+                <h2>من هو فيصل التويجري؟</h2>
+                <p>A Glimpse into the Vision and Experience</p>
+            </div>
+            <div class="about-grid">
+                <div class="about-text">
+                    <p>فيصل بن إبراهيم التويجري، مستشار إداري وريادي أعمال سعودي، يتمتع بخبرة واسعة في قيادة وتطوير المشاريع التحولية. يركز فيصل على تقديم استشارات استراتيجية وحلول مبتكرة تعزز النمو المستدام وتواكب تطلعات رؤية السعودية 2030.</p>
+                    <p>Faisal is a seasoned management consultant and visionary entrepreneur based in Riyadh, Saudi Arabia. With a proven track record in leading transformative projects, he is dedicated to delivering strategic insights and innovative solutions that drive sustainable growth and align with Saudi Vision 2030.</p>
+                    <p><strong>Expertise:</strong> Strategy Development | Process Optimization | Digital Transformation | Entrepreneurial Leadership</p>
+                </div>
+                <div class="about-image">
+                    FBT
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="projects" data-aos="fade-up">
+        <div class="container">
+            <div class="section-header">
+                <h2>المشاريع الاستراتيجية</h2>
+                <p>Key Initiatives & Strategic Endeavors</p>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card" data-aos="fade-up" data-aos-delay="100">
+                    <div>
+                        <h3 class="project-title">Dolcera</h3>
+                        <span class="project-tag">E-Commerce & Digital Gifting</span>
+                        <p class="project-desc">منصة رقمية رائدة في مجال الهدايا والتوزيعات الفاخرة، تقدم تجربة استثنائية تجمع بين الأصالة والابتكار.</p>
+                        <p class="project-desc">A leading digital platform specializing in premium gifting and distribution, blending traditional heritage with modern innovation.</p>
+                    </div>
+                    <a href="https://dolcera.me" target="_blank" class="project-link">زوروا الموقع | Visit Website →</a>
+                </div>
+
+                <div class="project-card" data-aos="fade-up" data-aos-delay="200">
+                    <div>
+                        <h3 class="project-title">Flawless Gift</h3>
+                        <span class="project-tag">Corporate Gifting Solutions</span>
+                        <p class="project-desc">حلول متكاملة لتقديم الهدايا المؤسسية والفعاليات، مصممة بدقة لتلبية تطلعات كبار العملاء والجهات الحكومية.</p>
+                        <p class="project-desc">End-to-end solutions for corporate gifting and events, meticulously crafted to meet the needs of high-profile clients and government entities.</p>
+                    </div>
+                    <a href="https://flawless-gift.sa" target="_blank" class="project-link">زوروا الموقع | Visit Website →</a>
+                </div>
+
+                <div class="project-card" data-aos="fade-up" data-aos-delay="300">
+                    <div>
+                        <h3 class="project-title">Strategic Consulting</h3>
+                        <span class="project-tag">Management & Advisory</span>
+                        <p class="project-desc">تقديم استشارات استراتيجية لكبار المسؤولين والجهات الحكومية في مجالات التطوير، التحول، وتحسين الكفاءة التشغيلية.</p>
+                        <p class="project-desc">Providing high-level strategic advisory to leadership and government entities, focusing on organizational development, transformation, and operational efficiency.</p>
+                    </div>
+                    <a href="#contact" class="project-link">تواصل لمزيد من التفاصيل | Contact for Details →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact" data-aos="fade-up">
+        <div class="container contact-content">
+            <div class="contact-header section-header">
+                <h2>تواصل معنا</h2>
+                <p>Connect for Opportunities & Advisory</p>
+            </div>
+            <p>أرحب بكافة استفساراتكم ومقترحاتكم. تواصلوا معي لبحث فرص التعاون، الاستشارات الاستراتيجية، أو مجرد التواصل المهني.</p>
+            <div class="contact-links">
+                <a href="mailto:me@fbt.sa" class="contact-btn"><i class="fas fa-envelope">
+                <a href="mailto:me@fbt.sa" class="contact-btn">me@fbt.sa</a>
+                <a href="https://www.linkedin.com/in/faisalit/" target="_blank" class="contact-btn"><i class="fab fa-linkedin">
+                <a href="https://www.linkedin.com/in/faisalit/" target="_blank" class="contact-btn">Faisal Al-Tuwaijri</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024. All Rights Reserved.</p>
+        <p>This is the Official Personal Website of <strong>FBT.sa</strong> | فيصل التويجري</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+</body>
+</html>
