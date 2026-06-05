@@ -100,7 +100,8 @@ export async function POST(request: Request) {
 
     const { data, error } = await supabase
       .from('homepage_settings')
-      .upsert({ id: 1, ...dbPayload })
+      .update(dbPayload)
+      .eq('id', 1)
       .select()
       .single()
 

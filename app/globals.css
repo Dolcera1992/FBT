@@ -115,7 +115,6 @@
   /* Ensure no elements can cause horizontal overflow */
   .container {
     max-width: 100%;
-    overflow-x: hidden;
   }
   
   /* Font utility classes */
