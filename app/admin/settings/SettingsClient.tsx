@@ -13,6 +13,7 @@ export default function AdminSettingsPage() {
 
   // Form states
   const [heroVideoUrl, setHeroVideoUrl] = useState('')
+  const [heroBgImage, setHeroBgImage] = useState('')
   const [heroHeadline1, setHeroHeadline1] = useState('')
   const [heroHeadline2, setHeroHeadline2] = useState('')
   const [heroHeadline3, setHeroHeadline3] = useState('')
@@ -47,6 +48,7 @@ export default function AdminSettingsPage() {
       
       // Set fields
       setHeroVideoUrl(data.heroVideoUrl)
+      setHeroBgImage(data.heroBgImage || '')
       setHeroHeadline1(data.heroHeadline1)
       setHeroHeadline2(data.heroHeadline2)
       setHeroHeadline3(data.heroHeadline3)
@@ -80,6 +82,7 @@ export default function AdminSettingsPage() {
 
     const updated = {
       heroVideoUrl,
+      heroBgImage,
       heroHeadline1,
       heroHeadline2,
       heroHeadline3,
@@ -136,14 +139,26 @@ export default function AdminSettingsPage() {
         <div className="p-6 rounded-2xl bg-[#0d0d0e] border border-border/40 space-y-4">
           <h3 className="text-lg font-bold text-white border-b border-border/20 pb-2">قسم الواجهة (Hero Section)</h3>
           
-          <div>
-            <label className="block text-xs font-semibold text-foreground mb-1.5">رابط فيديو الخلفية (webm/mp4)</label>
-            <input
-              type="text"
-              value={heroVideoUrl}
-              onChange={(e) => setHeroVideoUrl(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl bg-card border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue/50"
-            />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-semibold text-foreground mb-1.5">رابط فيديو الخلفية (webm/mp4)</label>
+              <input
+                type="text"
+                value={heroVideoUrl}
+                onChange={(e) => setHeroVideoUrl(e.target.value)}
+                className="w-full px-3 py-2 rounded-xl bg-card border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue/50"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-foreground mb-1.5">رابط صورة الخلفية (في حال عدم وجود فيديو)</label>
+              <input
+                type="text"
+                value={heroBgImage}
+                onChange={(e) => setHeroBgImage(e.target.value)}
+                placeholder="https://example.com/bg.jpg"
+                className="w-full px-3 py-2 rounded-xl bg-card border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue/50"
+              />
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">

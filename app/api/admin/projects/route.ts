@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getSupabaseAdmin } from '@/lib/supabase/admin'
+import { revalidatePath } from 'next/cache'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'edge'
@@ -56,6 +57,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
+    revalidatePath('/')
     return NextResponse.json(mapProjectRow(data))
   } catch (err: any) {
     return NextResponse.json({ error: err.message || 'Fatal error adding project' }, { status: 500 })
@@ -86,6 +88,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
+    revalidatePath('/')
     return NextResponse.json(mapProjectRow(data))
   } catch (err: any) {
     return NextResponse.json({ error: err.message || 'Fatal error updating project' }, { status: 500 })
@@ -109,6 +112,7 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
+    revalidatePath('/')
     return NextResponse.json({ success: true })
   } catch (err: any) {
     return NextResponse.json({ error: err.message || 'Fatal error deleting project' }, { status: 500 })

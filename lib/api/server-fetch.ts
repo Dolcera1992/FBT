@@ -27,7 +27,7 @@ export async function getServerServices(): Promise<Service[]> {
     id: row.id,
     title: row.title,
     description: row.description,
-    icon: row.icon_name,
+    icon: row.icon,
     colorPreset: row.color_preset,
   }))
 }
@@ -60,6 +60,7 @@ export async function getServerSettings(): Promise<HomepageSettings> {
     
     return {
       heroVideoUrl: data.hero_video_url,
+      heroBgImage: data.hero_bg_image,
       heroHeadline1: data.hero_headline_1,
       heroHeadline2: data.hero_headline_2,
       heroHeadline3: data.hero_headline_3,

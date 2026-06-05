@@ -85,17 +85,27 @@ export function Hero({ settings }: HeroProps) {
 
   return (
     <div className="relative h-screen w-full overflow-hidden bg-black font-sans">
-      <video
-        ref={videoRef}
-        className="absolute inset-0 w-full h-full object-cover scale-[1.03]"
-        autoPlay
-        muted
-        loop
-        playsInline
-        src={settings.heroVideoUrl}
-      >
-        Your browser does not support the video tag.
-      </video>
+      {settings.heroVideoUrl ? (
+        <video
+          ref={videoRef}
+          className="absolute inset-0 w-full h-full object-cover scale-[1.03]"
+          autoPlay
+          muted
+          loop
+          playsInline
+          src={settings.heroVideoUrl}
+        >
+          Your browser does not support the video tag.
+        </video>
+      ) : settings.heroBgImage ? (
+        <img
+          src={settings.heroBgImage}
+          alt="Hero Background"
+          className="absolute inset-0 w-full h-full object-cover scale-[1.03]"
+        />
+      ) : (
+        <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-accent-blue/20 to-accent-purple/20" />
+      )}
 
       {/* Cinematic Overlays (Radial Gradient & Dark overlay) */}
       <motion.div 

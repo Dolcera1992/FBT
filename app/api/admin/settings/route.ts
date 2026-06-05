@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getSupabaseAdmin } from '@/lib/supabase/admin'
+import { revalidatePath } from 'next/cache'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'edge'
@@ -22,6 +23,7 @@ const DEFAULT_SETTINGS = {
 
 const mapSettingsRow = (row: any) => ({
   heroVideoUrl: row.hero_video_url,
+  heroBgImage: row.hero_bg_image,
   heroHeadline1: row.hero_headline_1,
   heroHeadline2: row.hero_headline_2,
   heroHeadline3: row.hero_headline_3,
@@ -65,7 +67,7 @@ export async function POST(request: Request) {
     const body = await request.json()
     const supabase = getSupabaseAdmin()
     
-    const dbPayload = {
+    const dbPayload: any = {
       hero_video_url: body.heroVideoUrl,
       hero_headline_1: body.heroHeadline1,
       hero_headline_2: body.heroHeadline2,
@@ -86,6 +88,11 @@ export async function POST(request: Request) {
       updated_at: new Date().toISOString()
     }
 
+    // Only add if explicitly provided to avoid breaking if column doesn't exist initially
+    if (body.heroBgImage !== undefined) {
+      dbPayload.hero_bg_image = body.heroBgImage
+    }
+
     const { data, error } = await supabase
       .from('homepage_settings')
       .upsert({ id: 1, ...dbPayload })
@@ -96,6 +103,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
+    revalidatePath('/')
     return NextResponse.json(mapSettingsRow(data))
   } catch (err: any) {
     return NextResponse.json({ error: err.message || 'Fatal error updating settings' }, { status: 500 })

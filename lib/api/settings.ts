@@ -1,5 +1,6 @@
 export interface HomepageSettings {
   heroVideoUrl: string
+  heroBgImage?: string
   heroHeadline1: string
   heroHeadline2: string
   heroHeadline3: string

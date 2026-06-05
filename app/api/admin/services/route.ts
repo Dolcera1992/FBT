@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getSupabaseAdmin } from '@/lib/supabase/admin'
+import { revalidatePath } from 'next/cache'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'edge'
@@ -8,8 +9,8 @@ const mapServiceRow = (row: any) => ({
   id: row.id,
   title: row.title,
   description: row.description,
-  iconName: row.icon_name,
-  icon: row.icon_name,
+  iconName: row.icon,
+  icon: row.icon,
   colorPreset: row.color_preset,
 })
 
@@ -41,7 +42,7 @@ export async function POST(request: Request) {
       .insert({
         title: body.title,
         description: body.description,
-        icon_name: body.iconName || body.icon,
+        icon: body.iconName || body.icon,
         color_preset: body.colorPreset,
       })
       .select()
@@ -51,6 +52,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
+    revalidatePath('/')
     return NextResponse.json(mapServiceRow(data))
   } catch (err: any) {
     return NextResponse.json({ error: err.message || 'Fatal error adding service' }, { status: 500 })
@@ -67,7 +69,7 @@ export async function PUT(request: Request) {
       .update({
         title: body.title,
         description: body.description,
-        icon_name: body.iconName || body.icon,
+        icon: body.iconName || body.icon,
         color_preset: body.colorPreset,
       })
       .eq('id', body.id)
@@ -78,6 +80,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
+    revalidatePath('/')
     return NextResponse.json(mapServiceRow(data))
   } catch (err: any) {
     return NextResponse.json({ error: err.message || 'Fatal error updating service' }, { status: 500 })
@@ -101,6 +104,7 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
+    revalidatePath('/')
     return NextResponse.json({ success: true })
   } catch (err: any) {
     return NextResponse.json({ error: err.message || 'Fatal error deleting service' }, { status: 500 })
