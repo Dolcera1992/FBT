@@ -12,6 +12,40 @@ export interface Project {
   tags: string[];
 }
 
+const mockProjects: Project[] = [
+  {
+    id: "1",
+    title: "بوابة قمة الأصيل",
+    client: "قمة الأصيل العقارية",
+    description: "بوابة عقارية شاملة وتجربة عرض متميزة تتميز بجمالية تصميم مستوحاة من أسلوب آبل، وشبكة بينتو مخصصة ونماذج تفاعلية للأجهزة ثلاثية الأبعاد لهوية تجارية راقية.",
+    industry: "العقارات",
+    format: "تطبيق ويب",
+    imageUrl: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=2000",
+    badge: "أحدث مشروع",
+    tags: ["Next.js", "Tailwind CSS", "Framer Motion", "Real Estate"]
+  },
+  {
+    id: "2",
+    title: "متجر دولسيرا الإلكتروني",
+    client: "دولسيرا",
+    description: "منصة تجارة إلكترونية حديثة وعالية الأداء مصممة لتجربة مستخدم مثالية ومعدلات تحويل عالية. تشمل الميزات الدفع السلس، وإدارة المخزون الديناميكية، والتحديثات الفورية.",
+    industry: "التجزئة / التجارة الإلكترونية",
+    format: "تطبيق ويب",
+    imageUrl: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=2000",
+    tags: ["React", "Supabase", "E-Commerce", "Stripe"]
+  },
+  {
+    id: "3",
+    title: "متجر الهدايا المثالية (Flawless)",
+    client: "فلوليس",
+    description: "منصة هدايا فاخرة تتيح للمستخدمين تخصيص وإرسال صناديق هدايا راقية. تتميز المنصة ببناء هدايا تفاعلي وواجهة مستخدم أنيقة.",
+    industry: "تجزئة المنتجات الفاخرة",
+    format: "تطبيق ويب",
+    imageUrl: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=2000",
+    tags: ["Next.js", "UI/UX", "Animation"]
+  }
+];
+
 const mapProjectRow = (row: any): Project => ({
   id: row.id,
   title: row.title,
@@ -31,8 +65,8 @@ export const getProjects = async (): Promise<Project[]> => {
     .order('created_at', { ascending: true })
 
   if (error) {
-    console.error('Error fetching projects:', error)
-    return []
+    console.error('Error fetching projects, falling back to local mock data:', error.message)
+    return mockProjects
   }
 
   return (data || []).map(mapProjectRow)

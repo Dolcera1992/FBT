@@ -7,6 +7,33 @@ export interface Service {
   icon: string; // Using icon name to map to Lucide icons
 }
 
+const mockServices: Service[] = [
+  {
+    id: "1",
+    title: "تطوير ويب متكامل (Full-Stack)",
+    description: "تطوير تطبيقات الويب من البداية إلى النهاية باستخدام أحدث التقنيات مثل Next.js و React و Node.js. بناء حلول قابلة للتوسع وآمنة وعالية الأداء.",
+    icon: "Code"
+  },
+  {
+    id: "2",
+    title: "واجهات وتجربة المستخدم (UI/UX)",
+    description: "تصميم واجهات مستخدم متميزة تركز على رفع معدلات التحويل بتأثيرات بصرية حديثة، وتأثيرات الزجاج البلوري (Glassmorphism)، ورسوم متحركة سلسة.",
+    icon: "MonitorSmartphone"
+  },
+  {
+    id: "3",
+    title: "حلول التجارة الإلكترونية",
+    description: "بناء متاجر إلكترونية قوية مع بوابات دفع آمنة، وإدارة المخزون، وتجارب تسوق مخصصة وسلسة لزيادة المبيعات.",
+    icon: "ShoppingCart"
+  },
+  {
+    id: "4",
+    title: "لوحات التحكم المخصصة وأنظمة ERP",
+    description: "تطوير لوحات تحكم إدارية معقدة، وأدوات داخلية، وتكامل مع أنظمة ERP لتحسين وتبسيط العمليات التجارية للمؤسسات.",
+    icon: "LayoutDashboard"
+  }
+];
+
 const mapServiceRow = (row: any): Service => ({
   id: row.id,
   title: row.title,
@@ -21,8 +48,8 @@ export const getServices = async (): Promise<Service[]> => {
     .order('created_at', { ascending: true })
 
   if (error) {
-    console.error('Error fetching services:', error)
-    return []
+    console.error('Error fetching services, falling back to local mock data:', error.message)
+    return mockServices
   }
 
   return (data || []).map(mapServiceRow)
