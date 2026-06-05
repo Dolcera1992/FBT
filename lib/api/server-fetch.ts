@@ -72,11 +72,12 @@ export async function getServerSettings(): Promise<HomepageSettings> {
       contactSub: data.contact_sub,
       contactTitle: data.contact_title,
       contactDesc: data.contact_desc,
-      contactWhatsapp: data.contact_whatsapp,
-      contactPhone: data.contact_phone,
-      contactEmail: data.contact_email,
+      contactWhatsapp: data.contact_whatsapp || DEFAULT_SETTINGS.contactWhatsapp,
+      contactPhone: data.contact_phone || DEFAULT_SETTINGS.contactPhone,
+      contactEmail: data.contact_email || DEFAULT_SETTINGS.contactEmail,
+      globalColorPreset: data.global_color_preset || 'purple-neon',
     }
   } catch (err) {
-    return DEFAULT_SETTINGS
+    return { ...DEFAULT_SETTINGS, globalColorPreset: 'purple-neon' }
   }
 }

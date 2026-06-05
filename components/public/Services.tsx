@@ -158,7 +158,7 @@ export function Services({ services, settings }: ServicesProps) {
                   badges={[{ text: 'خدمة تقنية', type: 'cat' }]}
                   actionLabel="طلب الخدمة"
                   onClick={() => setSelectedService(service)}
-                  colorPreset={service.colorPreset}
+                  colorPreset={service.colorPreset || settings.globalColorPreset}
                 />
               </motion.div>
             );

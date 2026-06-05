@@ -65,15 +65,15 @@ export default function AdminServicesPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!title || !description || !icon) {
-      alert('الرجاء ملء جميع الحقول')
+    if (!title || !description) {
+      alert('الرجاء ملء جميع الحقول الإجبارية')
       return
     }
 
     const serviceData = {
       title,
       description,
-      icon,
+      icon: icon || 'Code',
       colorPreset: colorPreset || undefined
     }
 

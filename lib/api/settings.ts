@@ -15,6 +15,7 @@ export interface HomepageSettings {
   contactWhatsapp?: string
   contactPhone?: string
   contactEmail?: string
+  globalColorPreset?: string
 }
 
 const DEFAULT_SETTINGS = {
@@ -33,7 +34,8 @@ const DEFAULT_SETTINGS = {
   contactDesc: "تواصل معي لمناقشة أفكارك وتحويلها إلى واقع ملموس.",
   contactWhatsapp: "966500000000",
   contactPhone: "966500000000",
-  contactEmail: "info@example.com"
+  contactEmail: "info@example.com",
+  globalColorPreset: "purple-neon"
 }
 
 export const getHomepageSettings = async (): Promise<HomepageSettings> => {

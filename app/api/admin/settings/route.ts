@@ -37,6 +37,7 @@ const mapSettingsRow = (row: any) => ({
   contactWhatsapp: row.contact_whatsapp,
   contactPhone: row.contact_phone,
   contactEmail: row.contact_email,
+  globalColorPreset: row.global_color_preset,
 })
 
 export async function GET() {
@@ -81,6 +82,7 @@ export async function POST(request: Request) {
       contact_whatsapp: body.contactWhatsapp,
       contact_phone: body.contactPhone,
       contact_email: body.contactEmail,
+      global_color_preset: body.globalColorPreset,
       updated_at: new Date().toISOString()
     }
 
