@@ -114,7 +114,7 @@ export const updateService = async (id: string, updatedData: Partial<Service>): 
 }
 
 export const deleteService = async (id: string): Promise<boolean> => {
-  const supabase = createClient()
+  const supabase = getSupabaseAdmin()
   const { error } = await supabase
     .from('services')
     .delete()
