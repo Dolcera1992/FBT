@@ -17,8 +17,6 @@ export const metadata: Metadata = {
 import { Toaster } from 'sonner';
 import { DynamicCssInjector } from '@/components/ui/DynamicCssInjector';
 
-export const dynamic = 'force-dynamic'
-
 export default function RootLayout({
   children,
 }: Readonly<{

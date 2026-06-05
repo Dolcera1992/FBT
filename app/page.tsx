@@ -5,6 +5,7 @@ import { Contact } from '@/components/public/Contact'
 import { getServerProjects, getServerServices, getServerSettings } from '@/lib/api/server-fetch'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'edge'
 
 export default async function Home() {
   const [services, settings, projects] = await Promise.all([
