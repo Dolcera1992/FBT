@@ -32,6 +32,7 @@ const mapSettingsRow = (row: any) => ({
   portfolioTitle: row.portfolio_title,
   portfolioDesc: row.portfolio_desc,
   contactSub: row.contact_sub,
+  contactTitle: row.contact_title,
   contactDesc: row.contact_desc,
   contactWhatsapp: row.contact_whatsapp,
   contactPhone: row.contact_phone,
