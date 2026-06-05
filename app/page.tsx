@@ -4,6 +4,8 @@ import { Portfolio } from '@/components/public/Portfolio'
 import { Contact } from '@/components/public/Contact'
 import { getServerProjects, getServerServices, getServerSettings } from '@/lib/api/server-fetch'
 
+export const dynamic = 'force-dynamic'
+
 export default async function Home() {
   const [services, settings, projects] = await Promise.all([
     getServerServices(),
