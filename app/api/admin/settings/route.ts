@@ -32,8 +32,10 @@ const mapSettingsRow = (row: any) => ({
   portfolioTitle: row.portfolio_title,
   portfolioDesc: row.portfolio_desc,
   contactSub: row.contact_sub,
-  contactTitle: row.contact_title,
   contactDesc: row.contact_desc,
+  contactWhatsapp: row.contact_whatsapp,
+  contactPhone: row.contact_phone,
+  contactEmail: row.contact_email,
 })
 
 export async function GET() {
@@ -75,6 +77,9 @@ export async function POST(request: Request) {
       contact_sub: body.contactSub,
       contact_title: body.contactTitle,
       contact_desc: body.contactDesc,
+      contact_whatsapp: body.contactWhatsapp,
+      contact_phone: body.contactPhone,
+      contact_email: body.contactEmail,
       updated_at: new Date().toISOString()
     }
 

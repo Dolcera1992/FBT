@@ -45,6 +45,9 @@ export async function getServerSettings(): Promise<HomepageSettings> {
     contactSub: "دعنا نعمل معاً",
     contactTitle: "جاهز لبدء مشروعك القادم؟",
     contactDesc: "تواصل معي لمناقشة أفكارك وتحويلها إلى واقع ملموس.",
+    contactWhatsapp: "966500000000",
+    contactPhone: "966500000000",
+    contactEmail: "info@example.com"
   }
   
   try {
@@ -67,6 +70,9 @@ export async function getServerSettings(): Promise<HomepageSettings> {
       contactSub: data.contact_sub,
       contactTitle: data.contact_title,
       contactDesc: data.contact_desc,
+      contactWhatsapp: data.contact_whatsapp,
+      contactPhone: data.contact_phone,
+      contactEmail: data.contact_email,
     }
   } catch (err) {
     return DEFAULT_SETTINGS

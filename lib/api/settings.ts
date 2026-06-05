@@ -12,6 +12,9 @@ export interface HomepageSettings {
   contactSub: string
   contactTitle: string
   contactDesc: string
+  contactWhatsapp?: string
+  contactPhone?: string
+  contactEmail?: string
 }
 
 const DEFAULT_SETTINGS = {
@@ -28,6 +31,9 @@ const DEFAULT_SETTINGS = {
   contactSub: "دعنا نعمل معاً",
   contactTitle: "جاهز لبدء مشروعك القادم؟",
   contactDesc: "تواصل معي لمناقشة أفكارك وتحويلها إلى واقع ملموس.",
+  contactWhatsapp: "966500000000",
+  contactPhone: "966500000000",
+  contactEmail: "info@example.com"
 }
 
 export const getHomepageSettings = async (): Promise<HomepageSettings> => {

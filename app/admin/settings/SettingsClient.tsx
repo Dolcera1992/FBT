@@ -27,6 +27,10 @@ export default function AdminSettingsPage() {
   const [contactSub, setContactSub] = useState('')
   const [contactTitle, setContactTitle] = useState('')
   const [contactDesc, setContactDesc] = useState('')
+  
+  const [contactWhatsapp, setContactWhatsapp] = useState('')
+  const [contactPhone, setContactPhone] = useState('')
+  const [contactEmail, setContactEmail] = useState('')
 
   useEffect(() => {
     fetchSettings()
@@ -55,6 +59,9 @@ export default function AdminSettingsPage() {
       setContactSub(data.contactSub)
       setContactTitle(data.contactTitle)
       setContactDesc(data.contactDesc)
+      setContactWhatsapp(data.contactWhatsapp || '')
+      setContactPhone(data.contactPhone || '')
+      setContactEmail(data.contactEmail || '')
     } catch (err) {
       console.error('Error fetching settings:', err)
       alert('حدث خطأ أثناء تحميل الإعدادات')
@@ -80,7 +87,10 @@ export default function AdminSettingsPage() {
       portfolioDesc,
       contactSub,
       contactTitle,
-      contactDesc
+      contactDesc,
+      contactWhatsapp,
+      contactPhone,
+      contactEmail
     }
 
     try {
@@ -255,6 +265,39 @@ export default function AdminSettingsPage() {
               onChange={(e) => setContactDesc(e.target.value)}
               className="w-full px-3 py-2 rounded-xl bg-card border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue/50 resize-none"
             />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-border/20">
+            <div>
+              <label className="block text-xs font-semibold text-foreground mb-1.5">رقم الواتساب (مع رمز الدولة)</label>
+              <input
+                type="text"
+                value={contactWhatsapp}
+                placeholder="966500000000"
+                onChange={(e) => setContactWhatsapp(e.target.value)}
+                className="w-full px-3 py-2 rounded-xl bg-card border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent-green/50"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-foreground mb-1.5">رقم الجوال للاتصال المباشر</label>
+              <input
+                type="text"
+                value={contactPhone}
+                placeholder="0500000000"
+                onChange={(e) => setContactPhone(e.target.value)}
+                className="w-full px-3 py-2 rounded-xl bg-card border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue/50"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-foreground mb-1.5">البريد الإلكتروني</label>
+              <input
+                type="email"
+                value={contactEmail}
+                placeholder="info@example.com"
+                onChange={(e) => setContactEmail(e.target.value)}
+                className="w-full px-3 py-2 rounded-xl bg-card border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent-purple/50"
+              />
+            </div>
           </div>
         </div>
 

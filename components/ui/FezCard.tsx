@@ -14,6 +14,7 @@ interface FezCardProps {
   tags?: string[]
   href?: string
   actionLabel?: string
+  onClick?: () => void
 }
 
 export function FezCard({
@@ -24,7 +25,8 @@ export function FezCard({
   badges,
   tags,
   href = '#',
-  actionLabel = 'عرض التفاصيل'
+  actionLabel = 'عرض التفاصيل',
+  onClick
 }: FezCardProps) {
   return (
     <div className={styles.fezCardWrapper}>
@@ -73,10 +75,17 @@ export function FezCard({
         <div className={styles.footer}>
           <div className={styles.rule} aria-hidden="true"></div>
           
-          <Link href={href} className={styles.btn} aria-label={`${actionLabel} ${title}`}>
-            {actionLabel}
-            <ArrowLeft className={styles.btnIcon} />
-          </Link>
+          {onClick ? (
+            <button onClick={(e) => { e.preventDefault(); onClick(); }} className={styles.btn} aria-label={`${actionLabel} ${title}`}>
+              {actionLabel}
+              <ArrowLeft className={styles.btnIcon} />
+            </button>
+          ) : (
+            <Link href={href} className={styles.btn} aria-label={`${actionLabel} ${title}`}>
+              {actionLabel}
+              <ArrowLeft className={styles.btnIcon} />
+            </Link>
+          )}
 
           {/* Trust/Tags Row */}
           {tags && tags.length > 0 && (

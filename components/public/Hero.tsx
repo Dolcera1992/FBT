@@ -85,7 +85,6 @@ export function Hero({ settings }: HeroProps) {
 
   return (
     <div className="relative h-screen w-full overflow-hidden bg-black font-sans">
-      {/* Background Video */}
       <video
         ref={videoRef}
         className="absolute inset-0 w-full h-full object-cover scale-[1.03]"
@@ -93,8 +92,8 @@ export function Hero({ settings }: HeroProps) {
         muted
         loop
         playsInline
+        src={settings.heroVideoUrl}
       >
-        <source src={settings.heroVideoUrl} type="video/webm" />
         Your browser does not support the video tag.
       </video>
 
