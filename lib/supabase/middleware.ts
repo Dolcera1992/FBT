@@ -6,9 +6,12 @@ export async function updateSession(request: NextRequest) {
     request,
   })
 
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'http://localhost:54321'
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'dummy_key_for_build'
+
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    supabaseUrl,
+    supabaseKey,
     {
       cookies: {
         get(name: string) {
@@ -52,12 +55,18 @@ export async function updateSession(request: NextRequest) {
     }
   )
 
+  const path = request.nextUrl.pathname
+
+  // Optimize: ONLY check session if the path is an admin route
+  // This prevents Cloudflare Edge Worker subrequest limits from crashing the site on public/prefetch requests
+  if (!path.startsWith('/admin')) {
+    return supabaseResponse
+  }
+
   // Fetch session
   const {
     data: { user },
   } = await supabase.auth.getUser()
-
-  const path = request.nextUrl.pathname
 
   // Protect all /admin routes except /admin/login
   if (path.startsWith('/admin') && path !== '/admin/login') {
