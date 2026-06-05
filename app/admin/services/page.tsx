@@ -1,7 +1,10 @@
 'use client'
 
+export const runtime = 'edge'
+
 import React, { useState, useEffect } from 'react'
-import { getServices, addService, updateService, deleteService, Service } from '@/lib/api/services'
+import type { Service } from '@/lib/api/services'
+import { getServices, addService, updateService, deleteService } from '@/lib/api/services'
 import { Plus, Pencil, Trash2, X, Code, MonitorSmartphone, ShoppingCart, LayoutDashboard } from 'lucide-react'
 
 const IconMap: Record<string, React.ElementType> = {
@@ -30,9 +33,15 @@ export default function AdminServicesPage() {
 
   const fetchServices = async () => {
     setLoading(true)
-    const data = await getServices()
-    setServices(data)
-    setLoading(false)
+    try {
+      const data = await getServices()
+      setServices(data)
+    } catch (err) {
+      console.error('Error fetching services:', err)
+      alert('حدث خطأ أثناء تحميل الخدمات')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const openAddModal = () => {

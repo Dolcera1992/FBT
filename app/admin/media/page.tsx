@@ -1,7 +1,10 @@
 'use client'
 
+export const runtime = 'edge'
+
 import React, { useState, useEffect, useRef } from 'react'
-import { getMedia, uploadMedia, deleteMedia, MediaItem } from '@/lib/api/media'
+import type { MediaItem } from '@/lib/api/media'
+import { getMedia, uploadMedia, deleteMedia } from '@/lib/api/media'
 import { 
   UploadCloud, 
   Trash2, 
@@ -90,7 +93,9 @@ export default function AdminMediaPage() {
 
     try {
       setUploadProgress(50)
-      const newItem = await uploadMedia(file)
+      const formData = new FormData()
+      formData.append('file', file)
+      const newItem = await uploadMedia(formData)
       setUploadProgress(90)
       
       setMediaItems(prev => [newItem, ...prev])

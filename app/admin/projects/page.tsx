@@ -1,7 +1,10 @@
 'use client'
 
+export const runtime = 'edge'
+
 import React, { useState, useEffect } from 'react'
-import { getProjects, addProject, updateProject, deleteProject, Project } from '@/lib/api/projects'
+import type { Project } from '@/lib/api/projects'
+import { getProjects, addProject, updateProject, deleteProject } from '@/lib/api/projects'
 import { Plus, Pencil, Trash2, X, AlertTriangle } from 'lucide-react'
 
 export default function AdminProjectsPage() {
@@ -28,9 +31,15 @@ export default function AdminProjectsPage() {
 
   const fetchProjects = async () => {
     setLoading(true)
-    const data = await getProjects()
-    setProjects(data)
-    setLoading(false)
+    try {
+      const data = await getProjects()
+      setProjects(data)
+    } catch (err) {
+      console.error('Error fetching projects:', err)
+      alert('حدث خطأ أثناء تحميل المشاريع')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const openAddModal = () => {

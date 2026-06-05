@@ -1,7 +1,10 @@
 'use client'
 
+export const runtime = 'edge'
+
 import React, { useState, useEffect } from 'react'
-import { getHomepageSettings, updateHomepageSettings, HomepageSettings } from '@/lib/api/settings'
+import type { HomepageSettings } from '@/lib/api/settings'
+import { getHomepageSettings, updateHomepageSettings } from '@/lib/api/settings'
 import { Save } from 'lucide-react'
 
 export default function AdminSettingsPage() {
@@ -33,28 +36,33 @@ export default function AdminSettingsPage() {
 
   const fetchSettings = async () => {
     setLoading(true)
-    const data = await getHomepageSettings()
-    setSettings(data)
-    
-    // Set fields
-    setHeroVideoUrl(data.heroVideoUrl)
-    setHeroHeadline1(data.heroHeadline1)
-    setHeroHeadline2(data.heroHeadline2)
-    setHeroHeadline3(data.heroHeadline3)
-    
-    setServicesSub(data.servicesSub)
-    setServicesTitle(data.servicesTitle)
-    setServicesDesc(data.servicesDesc)
-    
-    setPortfolioSub(data.portfolioSub)
-    setPortfolioTitle(data.portfolioTitle)
-    setPortfolioDesc(data.portfolioDesc)
-    
-    setContactSub(data.contactSub)
-    setContactTitle(data.contactTitle)
-    setContactDesc(data.contactDesc)
-    
-    setLoading(false)
+    try {
+      const data = await getHomepageSettings()
+      setSettings(data)
+      
+      // Set fields
+      setHeroVideoUrl(data.heroVideoUrl)
+      setHeroHeadline1(data.heroHeadline1)
+      setHeroHeadline2(data.heroHeadline2)
+      setHeroHeadline3(data.heroHeadline3)
+      
+      setServicesSub(data.servicesSub)
+      setServicesTitle(data.servicesTitle)
+      setServicesDesc(data.servicesDesc)
+      
+      setPortfolioSub(data.portfolioSub)
+      setPortfolioTitle(data.portfolioTitle)
+      setPortfolioDesc(data.portfolioDesc)
+      
+      setContactSub(data.contactSub)
+      setContactTitle(data.contactTitle)
+      setContactDesc(data.contactDesc)
+    } catch (err) {
+      console.error('Error fetching settings:', err)
+      alert('حدث خطأ أثناء تحميل الإعدادات')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {

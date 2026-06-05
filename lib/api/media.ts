@@ -1,4 +1,19 @@
-import { supabase } from '@/lib/supabase'
+'use server'
+
+import { createClient } from '@supabase/supabase-js'
+
+function getSupabaseAdmin() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || 'http://localhost:54321',
+    process.env.SUPABASE_SERVICE_ROLE_KEY || 'dummy_key_for_build',
+    {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false
+      }
+    }
+  )
+}
 
 export interface MediaItem {
   id: string;
@@ -64,6 +79,7 @@ const mapMediaRow = (row: any): MediaItem => ({
  * Fetches all media items from the database
  */
 export const getMedia = async (): Promise<MediaItem[]> => {
+  const supabase = getSupabaseAdmin()
   const { data, error } = await supabase
     .from('media')
     .select('*')
@@ -80,7 +96,10 @@ export const getMedia = async (): Promise<MediaItem[]> => {
 /**
  * Uploads media to Supabase Storage and inserts metadata into DB
  */
-export const uploadMedia = async (file: File): Promise<MediaItem> => {
+export const uploadMedia = async (formData: FormData): Promise<MediaItem> => {
+  const file = formData.get('file') as File;
+  if (!file) throw new Error('لا يوجد ملف للرفع');
+
   // 1. Validation
   const validation = validateFile(file);
   if (!validation.isValid) {
@@ -92,6 +111,8 @@ export const uploadMedia = async (file: File): Promise<MediaItem> => {
   const cleanName = file.name.replace(/[^\w\s.-]/gi, '').replace(/\s+/g, '_');
   const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}-${cleanName}`;
   const filePath = `uploads/${fileName}`;
+
+  const supabase = getSupabaseAdmin()
 
   // 3. Upload to Supabase Storage
   const { data: uploadData, error: uploadError } = await supabase.storage
@@ -140,6 +161,7 @@ export const uploadMedia = async (file: File): Promise<MediaItem> => {
  * Deletes media from both storage and database
  */
 export const deleteMedia = async (id: string, storagePath: string): Promise<boolean> => {
+  const supabase = getSupabaseAdmin()
   // 1. Delete from Storage
   const { error: storageError } = await supabase.storage
     .from('portfolio-media')
