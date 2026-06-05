@@ -5,6 +5,8 @@ import type { Project } from '@/lib/api/projects'
 import { getProjects, addProject, updateProject, deleteProject } from '@/lib/api/projects'
 import { Plus, Pencil, Trash2, X, AlertTriangle } from 'lucide-react'
 
+import { ColorPresetPicker } from '@/components/ui/ColorPresetPicker'
+
 export default function AdminProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([])
   const [loading, setLoading] = useState(true)
@@ -20,6 +22,7 @@ export default function AdminProjectsPage() {
   const [liveUrl, setLiveUrl] = useState('')
   const [githubUrl, setGithubUrl] = useState('')
   const [tagsInput, setTagsInput] = useState('')
+  const [colorPreset, setColorPreset] = useState('')
 
   useEffect(() => {
     fetchProjects()
@@ -46,6 +49,7 @@ export default function AdminProjectsPage() {
     setLiveUrl('')
     setGithubUrl('')
     setTagsInput('')
+    setColorPreset('')
     setIsModalOpen(true)
   }
 
@@ -57,6 +61,7 @@ export default function AdminProjectsPage() {
     setLiveUrl(project.liveUrl || '')
     setGithubUrl(project.githubUrl || '')
     setTagsInput(project.tags ? project.tags.join(', ') : '')
+    setColorPreset(project.colorPreset || '')
     setIsModalOpen(true)
   }
 
@@ -74,7 +79,8 @@ export default function AdminProjectsPage() {
       imageUrl,
       liveUrl: liveUrl || undefined,
       githubUrl: githubUrl || undefined,
-      tags
+      tags,
+      colorPreset: colorPreset || undefined
     }
 
     try {
@@ -255,6 +261,10 @@ export default function AdminProjectsPage() {
                   onChange={(e) => setDescription(e.target.value)}
                   className="w-full px-3 py-2 rounded-xl bg-card border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue/50 resize-none"
                 />
+              </div>
+
+              <div className="pt-2 border-t border-border/10">
+                <ColorPresetPicker value={colorPreset} onChange={setColorPreset} />
               </div>
 
               <div className="pt-4 border-t border-border/40 flex justify-end gap-3">

@@ -5,6 +5,8 @@ import type { Service } from '@/lib/api/services'
 import { getServices, addService, updateService, deleteService } from '@/lib/api/services'
 import { Plus, Pencil, Trash2, X, Code, MonitorSmartphone, ShoppingCart, LayoutDashboard } from 'lucide-react'
 
+import { ColorPresetPicker } from '@/components/ui/ColorPresetPicker'
+
 const IconMap: Record<string, React.ElementType> = {
   Code,
   MonitorSmartphone,
@@ -24,6 +26,7 @@ export default function AdminServicesPage() {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [icon, setIcon] = useState('Code')
+  const [colorPreset, setColorPreset] = useState('')
 
   useEffect(() => {
     fetchServices()
@@ -47,6 +50,7 @@ export default function AdminServicesPage() {
     setTitle('')
     setDescription('')
     setIcon('Code')
+    setColorPreset('')
     setIsModalOpen(true)
   }
 
@@ -55,6 +59,7 @@ export default function AdminServicesPage() {
     setTitle(service.title)
     setDescription(service.description)
     setIcon(service.icon)
+    setColorPreset(service.colorPreset || '')
     setIsModalOpen(true)
   }
 
@@ -68,7 +73,8 @@ export default function AdminServicesPage() {
     const serviceData = {
       title,
       description,
-      icon
+      icon,
+      colorPreset: colorPreset || undefined
     }
 
     try {
@@ -215,6 +221,10 @@ export default function AdminServicesPage() {
                   onChange={(e) => setDescription(e.target.value)}
                   className="w-full px-3 py-2 rounded-xl bg-card border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue/50 resize-none"
                 />
+              </div>
+
+              <div className="pt-2 border-t border-border/10">
+                <ColorPresetPicker value={colorPreset} onChange={setColorPreset} />
               </div>
 
               <div className="pt-4 border-t border-border/40 flex justify-end gap-3">

@@ -15,6 +15,7 @@ export async function getServerProjects(): Promise<Project[]> {
     imageUrl: row.image_url,
     liveUrl: row.live_url,
     githubUrl: row.github_url,
+    colorPreset: row.color_preset,
   }))
 }
 
@@ -27,6 +28,7 @@ export async function getServerServices(): Promise<Service[]> {
     title: row.title,
     description: row.description,
     icon: row.icon_name,
+    colorPreset: row.color_preset,
   }))
 }
 

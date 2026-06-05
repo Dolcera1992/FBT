@@ -9,6 +9,8 @@ const mapServiceRow = (row: any) => ({
   title: row.title,
   description: row.description,
   iconName: row.icon_name,
+  icon: row.icon_name,
+  colorPreset: row.color_preset,
 })
 
 export async function GET() {
@@ -39,7 +41,8 @@ export async function POST(request: Request) {
       .insert({
         title: body.title,
         description: body.description,
-        icon_name: body.iconName,
+        icon_name: body.iconName || body.icon,
+        color_preset: body.colorPreset,
       })
       .select()
       .single()
@@ -64,7 +67,8 @@ export async function PUT(request: Request) {
       .update({
         title: body.title,
         description: body.description,
-        icon_name: body.iconName,
+        icon_name: body.iconName || body.icon,
+        color_preset: body.colorPreset,
       })
       .eq('id', body.id)
       .select()

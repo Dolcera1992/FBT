@@ -6,6 +6,7 @@ export interface Project {
   imageUrl: string
   liveUrl?: string
   githubUrl?: string
+  colorPreset?: string
   createdAt?: string
 }
 

@@ -122,6 +122,7 @@ export function Portfolio({ projects, settings }: PortfolioProps) {
                 ]}
                 tags={project.tags}
                 actionLabel="عرض المشروع"
+                colorPreset={project.colorPreset}
               />
             </motion.div>
           ))}

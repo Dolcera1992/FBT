@@ -3,6 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
+import { getPresetCssVars } from '@/lib/utils/colors'
 import styles from './FezCard.module.css'
 
 interface FezCardProps {
@@ -15,6 +16,7 @@ interface FezCardProps {
   href?: string
   actionLabel?: string
   onClick?: () => void
+  colorPreset?: string
 }
 
 export function FezCard({
@@ -26,10 +28,13 @@ export function FezCard({
   tags,
   href = '#',
   actionLabel = 'عرض التفاصيل',
-  onClick
+  onClick,
+  colorPreset
 }: FezCardProps) {
+  const customColors = getPresetCssVars(colorPreset)
+
   return (
-    <div className={styles.fezCardWrapper}>
+    <div className={styles.fezCardWrapper} style={customColors as React.CSSProperties}>
       <article className={styles.cardBody} aria-label={`${title} details`}>
         
         {/* Image / Icon Well */}

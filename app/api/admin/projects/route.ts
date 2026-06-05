@@ -12,6 +12,7 @@ const mapProjectRow = (row: any) => ({
   imageUrl: row.image_url,
   liveUrl: row.live_url,
   githubUrl: row.github_url,
+  colorPreset: row.color_preset,
 })
 
 export async function GET() {
@@ -46,6 +47,7 @@ export async function POST(request: Request) {
         image_url: body.imageUrl,
         live_url: body.liveUrl,
         github_url: body.githubUrl,
+        color_preset: body.colorPreset,
       })
       .select()
       .single()
@@ -74,6 +76,7 @@ export async function PUT(request: Request) {
         image_url: body.imageUrl,
         live_url: body.liveUrl,
         github_url: body.githubUrl,
+        color_preset: body.colorPreset,
       })
       .eq('id', body.id)
       .select()
