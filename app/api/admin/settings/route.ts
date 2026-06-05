@@ -24,6 +24,10 @@ const DEFAULT_SETTINGS = {
 const mapSettingsRow = (row: any) => ({
   heroVideoUrl: row.hero_video_url,
   heroBgImage: row.hero_bg_image,
+  cardBgColor: row.card_bg_color,
+  cardTextColor: row.card_text_color,
+  cardAccentColor: row.card_accent_color,
+  fontFamily: row.font_family,
   heroHeadline1: row.hero_headline_1,
   heroHeadline2: row.hero_headline_2,
   heroHeadline3: row.hero_headline_3,
@@ -91,6 +95,18 @@ export async function POST(request: Request) {
     // Only add if explicitly provided to avoid breaking if column doesn't exist initially
     if (body.heroBgImage !== undefined) {
       dbPayload.hero_bg_image = body.heroBgImage
+    }
+    if (body.cardBgColor !== undefined) {
+      dbPayload.card_bg_color = body.cardBgColor
+    }
+    if (body.cardTextColor !== undefined) {
+      dbPayload.card_text_color = body.cardTextColor
+    }
+    if (body.cardAccentColor !== undefined) {
+      dbPayload.card_accent_color = body.cardAccentColor
+    }
+    if (body.fontFamily !== undefined) {
+      dbPayload.font_family = body.fontFamily
     }
 
     const { data, error } = await supabase

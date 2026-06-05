@@ -223,10 +223,6 @@ export default function AdminServicesPage() {
                 />
               </div>
 
-              <div className="pt-2 border-t border-border/10">
-                <ColorPresetPicker value={colorPreset} onChange={setColorPreset} />
-              </div>
-
               <div className="pt-4 border-t border-border/40 flex justify-end gap-3">
                 <button
                   type="button"

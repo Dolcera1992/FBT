@@ -61,6 +61,10 @@ export async function getServerSettings(): Promise<HomepageSettings> {
     return {
       heroVideoUrl: data.hero_video_url,
       heroBgImage: data.hero_bg_image,
+      cardBgColor: data.card_bg_color,
+      cardTextColor: data.card_text_color,
+      cardAccentColor: data.card_accent_color,
+      fontFamily: data.font_family,
       heroHeadline1: data.hero_headline_1,
       heroHeadline2: data.hero_headline_2,
       heroHeadline3: data.hero_headline_3,

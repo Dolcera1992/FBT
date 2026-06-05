@@ -67,7 +67,6 @@ export default function AdminSettingsPage() {
       setContactWhatsapp(data.contactWhatsapp || '')
       setContactPhone(data.contactPhone || '')
       setContactEmail(data.contactEmail || '')
-      setGlobalColorPreset(data.globalColorPreset || 'purple-neon')
     } catch (err) {
       console.error('Error fetching settings:', err)
       alert('حدث خطأ أثناء تحميل الإعدادات')
@@ -97,8 +96,7 @@ export default function AdminSettingsPage() {
       contactDesc,
       contactWhatsapp,
       contactPhone,
-      contactEmail,
-      globalColorPreset
+      contactEmail
     }
 
     try {
@@ -123,18 +121,6 @@ export default function AdminSettingsPage() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-8">
-        {/* Section 0: Global Theme */}
-        <div className="p-6 rounded-2xl bg-[#0d0d0e] border border-border/40 space-y-4">
-          <h3 className="text-lg font-bold text-white border-b border-border/20 pb-2">السمة العامة للموقع (Global Theme)</h3>
-          
-          <div className="pt-2">
-            <ColorPresetPicker value={globalColorPreset} onChange={setGlobalColorPreset} />
-            <p className="text-xs text-muted-foreground mt-1 text-accent-blue/80">
-              هذا اللون سيتم تطبيقه كافتراضي على جميع الكروت (الخدمات والمشاريع) مالم تخصص لوناً مختلفاً لكل كرت على حدة.
-            </p>
-          </div>
-        </div>
-
         {/* Section 1: Hero Section */}
         <div className="p-6 rounded-2xl bg-[#0d0d0e] border border-border/40 space-y-4">
           <h3 className="text-lg font-bold text-white border-b border-border/20 pb-2">قسم الواجهة (Hero Section)</h3>

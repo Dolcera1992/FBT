@@ -2,17 +2,17 @@
 
 .fezCardWrapper {
   /* Palette */
-  --clr-card: #1a0f24;
-  --clr-card-hover: #1e1229;
-  --clr-img-well: #110920;
-  --clr-accent: #c084fc;
-  --clr-accent-deep: #9333ea;
-  --clr-glow: rgba(192, 132, 252, 0.28);
-  --clr-glow-strong: rgba(192, 132, 252, 0.60);
-  --clr-text-hi: #f0e6ff;
-  --clr-text-mid: #a78dc0;
-  --clr-text-lo: #604f78;
-  --clr-border-idle: rgba(192, 132, 252, 0.10);
+  --clr-card: var(--user-card-bg, #1a0f24);
+  --clr-card-hover: color-mix(in srgb, var(--user-card-bg, #1a0f24) 95%, white);
+  --clr-img-well: color-mix(in srgb, var(--user-card-bg, #110920) 90%, black);
+  --clr-accent: var(--user-card-accent, #c084fc);
+  --clr-accent-deep: color-mix(in srgb, var(--user-card-accent, #c084fc) 80%, black);
+  --clr-glow: color-mix(in srgb, var(--user-card-accent, #c084fc) 28%, transparent);
+  --clr-glow-strong: color-mix(in srgb, var(--user-card-accent, #c084fc) 60%, transparent);
+  --clr-text-hi: var(--user-card-text, #f0e6ff);
+  --clr-text-mid: color-mix(in srgb, var(--user-card-text, #f0e6ff) 80%, transparent);
+  --clr-text-lo: color-mix(in srgb, var(--user-card-text, #f0e6ff) 60%, transparent);
+  --clr-border-idle: color-mix(in srgb, var(--user-card-accent, #c084fc) 10%, transparent);
 
   /* Spacing */
   --sp-card-pad-x: 1.5rem;
@@ -280,7 +280,7 @@
 }
 
 .name {
-  font-family: 'Cairo', 'Syne', sans-serif;
+  font-family: var(--user-font-family, 'Cairo', 'Syne', sans-serif);
   font-size: 1.25rem;
   font-weight: 700;
   line-height: 1.3;
