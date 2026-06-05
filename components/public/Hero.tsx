@@ -276,29 +276,29 @@ export function Hero({ settings }: HeroProps) {
         animate="visible"
         className="absolute bottom-20 right-6 sm:right-10 lg:right-16 z-40 max-w-3xl text-right select-none"
       >
-        <div className="space-y-2.5 overflow-hidden">
-          <div className="overflow-hidden h-fit py-1">
+        <div className="space-y-1.5 overflow-hidden">
+          <div className="overflow-hidden h-fit py-4 -my-3 px-2">
             <motion.span 
               variants={wordRevealVariants}
-              className="block text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight text-white leading-none"
+              className="block text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight text-white leading-tight"
             >
               {settings.heroHeadline1}
             </motion.span>
           </div>
 
-          <div className="overflow-hidden h-fit py-1">
+          <div className="overflow-hidden h-fit py-6 -my-5 px-2">
             <motion.span 
               variants={wordRevealVariants}
-              className="block text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-black bg-gradient-to-l from-accent-blue via-accent-purple to-accent-emerald bg-clip-text text-transparent leading-none filter drop-shadow-sm"
+              className="block text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-black bg-gradient-to-l from-accent-blue via-accent-purple to-accent-emerald bg-clip-text text-transparent leading-[1.15] filter drop-shadow-sm"
             >
               {settings.heroHeadline2}
             </motion.span>
           </div>
 
-          <div className="overflow-hidden h-fit py-1">
+          <div className="overflow-hidden h-fit py-4 -my-3 px-2">
             <motion.span 
               variants={wordRevealVariants}
-              className="block text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight text-white/90 leading-none"
+              className="block text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight text-white/90 leading-tight"
             >
               {settings.heroHeadline3}
             </motion.span>
