@@ -13,6 +13,8 @@ export const metadata: Metadata = {
   description: "الموقع الشخصي ومعرض أعمال FBT.sa لمشاريع تطوير الويب والخدمات التقنية.",
 };
 
+import { Toaster } from 'sonner';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -24,7 +26,10 @@ export default function RootLayout({
       dir="rtl"
       className={`dark ${cairo.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+      <body className="min-h-full flex flex-col font-sans">
+        {children}
+        <Toaster richColors position="bottom-left" />
+      </body>
     </html>
   );
 }

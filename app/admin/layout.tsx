@@ -3,7 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, FolderKanban, ShieldCheck, Home, ArrowLeftRight, Settings } from 'lucide-react'
+import { LayoutDashboard, FolderKanban, ShieldCheck, Home, ArrowLeftRight, Settings, Image } from 'lucide-react'
 
 export default function AdminLayout({
   children,
@@ -17,6 +17,7 @@ export default function AdminLayout({
     { name: 'إدارة المشاريع', href: '/admin/projects', icon: FolderKanban },
     { name: 'إدارة الخدمات', href: '/admin/services', icon: ArrowLeftRight },
     { name: 'إعدادات الموقع', href: '/admin/settings', icon: Settings },
+    { name: 'مكتبة الوسائط', href: '/admin/media', icon: Image },
   ]
 
   return (

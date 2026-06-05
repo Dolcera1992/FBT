@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { motion, Variants } from 'framer-motion'
 import { Service } from '@/lib/api/services'
 import { Code, MonitorSmartphone, ShoppingCart, LayoutDashboard } from 'lucide-react'
 import { HomepageSettings } from '@/lib/api/settings'
@@ -18,84 +18,154 @@ interface ServicesProps {
 }
 
 export function Services({ services, settings }: ServicesProps) {
-  const [isVisible, setIsVisible] = useState(false)
-  const [hoveredService, setHoveredService] = useState<string | null>(null)
+  // Stagger Container
+  const containerVariants: Variants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.12,
+      }
+    }
+  }
 
-  useEffect(() => {
-    const timer = setTimeout(() => setIsVisible(true), 300)
-    return () => clearTimeout(timer)
-  }, [])
+  // Card Reveal
+  const cardVariants: Variants = {
+    hidden: { 
+      opacity: 0, 
+      y: 40 
+    },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        type: 'spring',
+        stiffness: 80,
+        damping: 15
+      }
+    }
+  }
 
   return (
-    <section id="services" className="relative py-20 bg-black overflow-hidden">
+    <section id="services" className="relative py-28 bg-[#070708] overflow-hidden border-b border-white/5">
       
-      {/* Ambient lighting effect */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 start-1/4 w-96 h-96 bg-accent-blue/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 end-1/4 w-64 h-64 bg-accent-purple/10 rounded-full blur-2xl" />
+      {/* Cinematic Animated Background Orbs */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
+        <motion.div 
+          animate={{
+            x: [0, 40, -30, 0],
+            y: [0, -60, 40, 0],
+            scale: [1, 1.15, 0.9, 1],
+          }}
+          transition={{
+            duration: 22,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="absolute top-10 start-1/4 w-[450px] h-[450px] bg-accent-blue/5 rounded-full blur-[120px]" 
+        />
+        <motion.div 
+          animate={{
+            x: [0, -50, 40, 0],
+            y: [0, 50, -50, 0],
+            scale: [1, 0.9, 1.1, 1],
+          }}
+          transition={{
+            duration: 26,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="absolute -bottom-20 end-1/4 w-[400px] h-[400px] bg-accent-purple/5 rounded-full blur-[140px]" 
+        />
       </div>
 
-      <div className="container mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+      <div className="container mx-auto px-6 sm:px-8 lg:px-12 relative z-10 max-w-7xl">
         
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div className={`inline-flex items-center gap-3 mb-6 transform transition-all duration-1000 ${
-            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-          }`}>
-            <div className="w-3 h-3 bg-accent-blue rounded-full animate-pulse" />
-            <span className="text-sm font-semibold text-gray-300">
+        {/* Section Header */}
+        <div className="text-center mb-20">
+          <motion.div 
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="inline-flex items-center gap-3 mb-6 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full backdrop-blur-md"
+          >
+            <div className="w-2.5 h-2.5 bg-accent-blue rounded-full animate-pulse" />
+            <span className="text-xs font-semibold text-gray-300 tracking-wider">
               {settings.servicesSub}
             </span>
-            <div className="w-3 h-3 bg-accent-emerald rounded-full animate-pulse" />
-          </div>
+            <div className="w-2.5 h-2.5 bg-accent-emerald rounded-full animate-pulse" />
+          </motion.div>
           
-          <h2 className={`text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6 text-white transform transition-all duration-1000 delay-200 ${
-            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'
-          }`}>
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, delay: 0.15 }}
+            className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6 text-white tracking-tight"
+          >
             {settings.servicesTitle}
-          </h2>
+          </motion.h2>
           
-          <p className={`text-lg sm:text-xl text-gray-400 leading-relaxed max-w-3xl mx-auto transform transition-all duration-1000 delay-400 ${
-            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-          }`}>
+          <motion.p 
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            className="text-base sm:text-lg text-gray-400 leading-relaxed max-w-2xl mx-auto"
+          >
             {settings.servicesDesc}
-          </p>
+          </motion.p>
         </div>
 
         {/* Services Grid */}
-        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto transform transition-all duration-1000 delay-600 ${
-          isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'
-        }`}>
-          {services.map((service, index) => {
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
+        >
+          {services.map((service) => {
             const IconComponent = IconMap[service.icon] || Code;
             
             return (
-              <div
+              <motion.div
                 key={service.id}
-                className={`relative bg-card/50 backdrop-blur-md border border-border p-8 rounded-2xl elevated-shadow transform transition-all duration-500 ${
-                  hoveredService === service.id ? 'scale-105 -translate-y-2 border-accent-blue/30' : 'scale-100'
-                }`}
-                style={{
-                  transitionDelay: `${index * 100}ms`
+                variants={cardVariants}
+                whileHover={{ 
+                  y: -8, 
+                  scale: 1.025,
+                  boxShadow: '0 20px 40px -20px rgba(59, 130, 246, 0.15)',
+                  borderColor: 'rgba(59, 130, 246, 0.35)',
                 }}
-                onMouseEnter={() => setHoveredService(service.id)}
-                onMouseLeave={() => setHoveredService(null)}
+                className="relative bg-card/25 backdrop-blur-xl border border-white/5 p-8 rounded-2xl flex flex-col justify-between h-full group transition-all duration-300"
               >
-                <div className="w-12 h-12 bg-accent-blue/10 rounded-xl flex items-center justify-center mb-6">
-                  <IconComponent className="w-6 h-6 text-accent-blue" />
+                {/* Accent line on hover */}
+                <div className="absolute top-0 inset-x-0 h-1 rounded-t-2xl bg-gradient-to-l from-accent-blue via-accent-purple to-accent-emerald opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                
+                <div>
+                  {/* Icon */}
+                  <div className="w-12 h-12 bg-white/5 border border-white/10 group-hover:border-accent-blue/20 rounded-xl flex items-center justify-center mb-6 group-hover:bg-accent-blue/10 transition-all duration-300">
+                    <IconComponent className="w-5.5 h-5.5 text-gray-300 group-hover:text-accent-blue transition-colors duration-300" />
+                  </div>
+                  
+                  {/* Title */}
+                  <h3 className="text-lg font-bold text-white mb-3 tracking-tight group-hover:text-accent-blue transition-colors duration-300">
+                    {service.title}
+                  </h3>
+                  
+                  {/* Description */}
+                  <p className="text-gray-400 group-hover:text-gray-300 leading-relaxed text-xs sm:text-sm transition-colors duration-300">
+                    {service.description}
+                  </p>
                 </div>
-                
-                <h3 className="text-xl font-bold text-foreground mb-4 leading-tight">
-                  {service.title}
-                </h3>
-                
-                <p className="text-muted-foreground leading-relaxed text-sm">
-                  {service.description}
-                </p>
-              </div>
+
+                {/* Subtle card glowing orb behind icon */}
+                <div className="absolute top-0 right-0 w-24 h-24 bg-accent-blue/5 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
       </div>
     </section>
   )

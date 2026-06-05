@@ -4,18 +4,20 @@ import { Portfolio } from '@/components/public/Portfolio'
 import { Contact } from '@/components/public/Contact'
 import { getServices } from '@/lib/api/services'
 import { getHomepageSettings } from '@/lib/api/settings'
+import { getProjects } from '@/lib/api/projects'
 
 export default async function Home() {
-  const [services, settings] = await Promise.all([
+  const [services, settings, projects] = await Promise.all([
     getServices(),
-    getHomepageSettings()
+    getHomepageSettings(),
+    getProjects()
   ]);
   
   return (
     <main className="min-h-screen bg-background">
       <Hero settings={settings} />
       <Services services={services} settings={settings} />
-      <Portfolio settings={settings} />
+      <Portfolio projects={projects} settings={settings} />
       <Contact settings={settings} />
       
       {/* Simple Footer */}
