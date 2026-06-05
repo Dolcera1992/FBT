@@ -57,18 +57,23 @@ const mapServiceRow = (row: any): Service => ({
 })
 
 export const getServices = async (): Promise<Service[]> => {
-  const supabase = getSupabaseAdmin()
-  const { data, error } = await supabase
-    .from('services')
-    .select('*')
-    .order('created_at', { ascending: true })
+  try {
+    const supabase = getSupabaseAdmin()
+    const { data, error } = await supabase
+      .from('services')
+      .select('*')
+      .order('created_at', { ascending: true })
 
-  if (error) {
-    console.error('Error fetching services, falling back to local mock data:', error.message)
+    if (error) {
+      console.error('Error fetching services, falling back to local mock data:', error.message)
+      return mockServices
+    }
+
+    return (data || []).map(mapServiceRow)
+  } catch (err: any) {
+    console.error('Fatal error in getServices:', err)
     return mockServices
   }
-
-  return (data || []).map(mapServiceRow)
 }
 
 export const addService = async (service: Omit<Service, 'id'>): Promise<Service> => {

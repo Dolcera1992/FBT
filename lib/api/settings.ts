@@ -48,15 +48,36 @@ const mapSettingsRow = (row: any): HomepageSettings => ({
 })
 
 export const getHomepageSettings = async (): Promise<HomepageSettings> => {
-  const supabase = getSupabaseAdmin()
-  const { data, error } = await supabase
-    .from('homepage_settings')
-    .select('*')
-    .eq('id', 1)
-    .single()
+  try {
+    const supabase = getSupabaseAdmin()
+    const { data, error } = await supabase
+      .from('homepage_settings')
+      .select('*')
+      .eq('id', 1)
+      .single()
 
-  if (error) {
-    console.warn('Warning: Could not fetch settings from Supabase, using local defaults.', error.message)
+    if (error) {
+      console.warn('Warning: Could not fetch settings from Supabase, using local defaults.', error.message)
+      return {
+        heroVideoUrl: "https://mojli.s3.us-east-2.amazonaws.com/Mojli+Website+upscaled+(12mb).webm",
+        heroHeadline1: "تطوير ويب",
+        heroHeadline2: "متكامل",
+        heroHeadline3: "بلا حدود",
+        servicesSub: "الخبرات التقنية",
+        servicesTitle: "خدماتي المهنية",
+        servicesDesc: "تقديم حلول رقمية عالية الأداء وقابلة للتطوير وذات تصاميم جذابة.",
+        portfolioSub: "المشاريع المميزة",
+        portfolioTitle: "أعمالي السابقة",
+        portfolioDesc: "استعراض لأحدث التجارب الرقمية وتطبيقات الويب التي قمت ببنائها باستخدام التقنيات الحديثة.",
+        contactSub: "دعنا نعمل معاً",
+        contactTitle: "جاهز لبدء مشروعك القادم؟",
+        contactDesc: "تواصل معي لمناقشة أفكارك وتحويلها إلى واقع ملموس.",
+      }
+    }
+
+    return mapSettingsRow(data)
+  } catch (err: any) {
+    console.error('Fatal error in getHomepageSettings:', err)
     return {
       heroVideoUrl: "https://mojli.s3.us-east-2.amazonaws.com/Mojli+Website+upscaled+(12mb).webm",
       heroHeadline1: "تطوير ويب",
@@ -69,12 +90,10 @@ export const getHomepageSettings = async (): Promise<HomepageSettings> => {
       portfolioTitle: "أعمالي السابقة",
       portfolioDesc: "استعراض لأحدث التجارب الرقمية وتطبيقات الويب التي قمت ببنائها باستخدام التقنيات الحديثة.",
       contactSub: "دعنا نعمل معاً",
-      contactTitle: "هل أنت جاهز لبناء مشروعك القادم؟",
-      contactDesc: "أخبرني بمشروعك وسأتواصل معك بوضع خطة عمل لتحويل فكرتك إلى واقع رقمي ملموس.",
-    };
+      contactTitle: "جاهز لبدء مشروعك القادم؟",
+      contactDesc: "تواصل معي لمناقشة أفكارك وتحويلها إلى واقع ملموس.",
+    }
   }
-
-  return mapSettingsRow(data)
 }
 
 export const updateHomepageSettings = async (settings: Partial<HomepageSettings>): Promise<HomepageSettings> => {

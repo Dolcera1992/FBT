@@ -74,18 +74,23 @@ const mapProjectRow = (row: any): Project => ({
 })
 
 export const getProjects = async (): Promise<Project[]> => {
-  const supabase = getSupabaseAdmin()
-  const { data, error } = await supabase
-    .from('projects')
-    .select('*')
-    .order('created_at', { ascending: true })
+  try {
+    const supabase = getSupabaseAdmin()
+    const { data, error } = await supabase
+      .from('projects')
+      .select('*')
+      .order('created_at', { ascending: true })
 
-  if (error) {
-    console.error('Error fetching projects, falling back to local mock data:', error.message)
+    if (error) {
+      console.error('Error fetching projects, falling back to local mock data:', error.message)
+      return mockProjects
+    }
+
+    return (data || []).map(mapProjectRow)
+  } catch (err: any) {
+    console.error('Fatal error in getProjects:', err)
     return mockProjects
   }
-
-  return (data || []).map(mapProjectRow)
 }
 
 export const addProject = async (project: Omit<Project, 'id'>): Promise<Project> => {
