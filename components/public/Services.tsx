@@ -2,7 +2,7 @@
 
 import { motion, Variants } from 'framer-motion'
 import { Service } from '@/lib/api/services'
-import { Code, MonitorSmartphone, ShoppingCart, LayoutDashboard } from 'lucide-react'
+import { Code, MonitorSmartphone, ShoppingCart, LayoutDashboard, Sparkles } from 'lucide-react'
 import { HomepageSettings } from '@/lib/api/settings'
 
 const IconMap: Record<string, React.ElementType> = {
@@ -87,13 +87,26 @@ export function Services({ services, settings }: ServicesProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-3 mb-6 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full backdrop-blur-md"
+            className="group relative inline-flex items-center justify-center mb-8 cursor-default"
           >
-            <div className="w-2.5 h-2.5 bg-accent-blue rounded-full animate-pulse" />
-            <span className="text-xs font-semibold text-gray-300 tracking-wider">
-              {settings.servicesSub}
-            </span>
-            <div className="w-2.5 h-2.5 bg-accent-emerald rounded-full animate-pulse" />
+            {/* Animated Ambient Glow */}
+            <div className="absolute inset-0 bg-gradient-to-r from-accent-blue/30 via-accent-purple/30 to-accent-emerald/30 blur-2xl opacity-40 group-hover:opacity-80 transition-opacity duration-700 rounded-full" />
+            
+            {/* Premium Glass Badge */}
+            <div className="relative flex items-center gap-3 px-6 py-2.5 rounded-full bg-black/40 backdrop-blur-2xl border border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15),_0_4px_20px_rgba(0,0,0,0.5)] group-hover:border-white/25 group-hover:bg-black/60 transition-all duration-500">
+              
+              {/* Left Sparkle */}
+              <Sparkles className="w-4 h-4 text-accent-emerald animate-pulse drop-shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+              
+              {/* Text */}
+              <span className="text-xs sm:text-sm font-bold tracking-[0.2em] bg-gradient-to-b from-white to-gray-400 bg-clip-text text-transparent">
+                {settings.servicesSub}
+              </span>
+
+              {/* Right Dot */}
+              <div className="w-1.5 h-1.5 rounded-full bg-accent-blue shadow-[0_0_8px_rgba(59,130,246,0.8)] animate-pulse" style={{ animationDelay: '1s' }} />
+
+            </div>
           </motion.div>
           
           <motion.h2 
