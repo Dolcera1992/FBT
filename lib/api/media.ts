@@ -26,16 +26,16 @@ export interface MediaItem {
 }
 
 // Config constants
-export const ALLOWED_IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/gif', 'image/svg+xml'];
-export const ALLOWED_VIDEO_TYPES = ['video/mp4', 'video/webm', 'video/ogg'];
+const ALLOWED_IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/gif', 'image/svg+xml'];
+const ALLOWED_VIDEO_TYPES = ['video/mp4', 'video/webm', 'video/ogg'];
 
-export const MAX_IMAGE_SIZE_MB = 5;
-export const MAX_VIDEO_SIZE_MB = 20;
+const MAX_IMAGE_SIZE_MB = 5;
+const MAX_VIDEO_SIZE_MB = 20;
 
 /**
  * Validates a file type and size before upload
  */
-export const validateFile = (file: File): { isValid: boolean; error?: string } => {
+const validateFile = (file: File): { isValid: boolean; error?: string } => {
   const isImage = ALLOWED_IMAGE_TYPES.includes(file.type);
   const isVideo = ALLOWED_VIDEO_TYPES.includes(file.type);
 
