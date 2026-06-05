@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Cairo } from "next/font/google";
 import "./globals.css";
 
+export const runtime = 'edge';
+
 const cairo = Cairo({
   variable: "--font-cairo",
   subsets: ["arabic", "latin"],

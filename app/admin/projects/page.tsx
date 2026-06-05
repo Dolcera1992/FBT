@@ -1,7 +1,5 @@
 'use client'
 
-export const runtime = 'edge'
-
 import React, { useState, useEffect } from 'react'
 import type { Project } from '@/lib/api/projects'
 import { getProjects, addProject, updateProject, deleteProject } from '@/lib/api/projects'

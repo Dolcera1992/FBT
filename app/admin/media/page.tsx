@@ -1,7 +1,5 @@
 'use client'
 
-export const runtime = 'edge'
-
 import React, { useState, useEffect, useRef } from 'react'
 import type { MediaItem } from '@/lib/api/media'
 import { getMedia, uploadMedia, deleteMedia } from '@/lib/api/media'

@@ -1,7 +1,5 @@
 'use client'
 
-export const runtime = 'edge'
-
 import React, { useState, useEffect } from 'react'
 import type { HomepageSettings } from '@/lib/api/settings'
 import { getHomepageSettings, updateHomepageSettings } from '@/lib/api/settings'
