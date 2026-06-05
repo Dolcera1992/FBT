@@ -15,12 +15,10 @@ export default function AdminProjectsPage() {
   
   // Form fields
   const [title, setTitle] = useState('')
-  const [client, setClient] = useState('')
   const [description, setDescription] = useState('')
-  const [industry, setIndustry] = useState('')
-  const [format, setFormat] = useState('')
   const [imageUrl, setImageUrl] = useState('')
-  const [badge, setBadge] = useState('')
+  const [liveUrl, setLiveUrl] = useState('')
+  const [githubUrl, setGithubUrl] = useState('')
   const [tagsInput, setTagsInput] = useState('')
 
   useEffect(() => {
@@ -43,12 +41,10 @@ export default function AdminProjectsPage() {
   const openAddModal = () => {
     setEditingProject(null)
     setTitle('')
-    setClient('')
     setDescription('')
-    setIndustry('')
-    setFormat('')
     setImageUrl('')
-    setBadge('')
+    setLiveUrl('')
+    setGithubUrl('')
     setTagsInput('')
     setIsModalOpen(true)
   }
@@ -56,19 +52,17 @@ export default function AdminProjectsPage() {
   const openEditModal = (project: Project) => {
     setEditingProject(project)
     setTitle(project.title)
-    setClient(project.client)
     setDescription(project.description)
-    setIndustry(project.industry)
-    setFormat(project.format)
     setImageUrl(project.imageUrl || '')
-    setBadge(project.badge || '')
-    setTagsInput(project.tags.join(', '))
+    setLiveUrl(project.liveUrl || '')
+    setGithubUrl(project.githubUrl || '')
+    setTagsInput(project.tags ? project.tags.join(', ') : '')
     setIsModalOpen(true)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!title || !client || !description || !industry || !format) {
+    if (!title || !description || !imageUrl) {
       alert('الرجاء ملء الحقول الإجبارية')
       return
     }
@@ -76,18 +70,16 @@ export default function AdminProjectsPage() {
     const tags = tagsInput.split(',').map(tag => tag.trim()).filter(tag => tag !== '')
     const projectData = {
       title,
-      client,
       description,
-      industry,
-      format,
       imageUrl,
-      badge: badge || undefined,
+      liveUrl: liveUrl || undefined,
+      githubUrl: githubUrl || undefined,
       tags
     }
 
     try {
       if (editingProject) {
-        await updateProject(editingProject.id, projectData)
+        await updateProject({ id: editingProject.id, ...projectData } as Project)
       } else {
         await addProject(projectData)
       }
@@ -136,9 +128,8 @@ export default function AdminProjectsPage() {
               <thead className="bg-card/45 text-foreground font-semibold border-b border-border/40">
                 <tr>
                   <th className="px-6 py-4">اسم المشروع</th>
-                  <th className="px-6 py-4">العميل</th>
-                  <th className="px-6 py-4">المجال</th>
-                  <th className="px-6 py-4">نوع العمل</th>
+                  <th className="px-6 py-4">الوصف</th>
+                  <th className="px-6 py-4">الوسوم</th>
                   <th className="px-6 py-4 text-left">الخيارات</th>
                 </tr>
               </thead>
@@ -146,12 +137,13 @@ export default function AdminProjectsPage() {
                 {projects.map((project) => (
                   <tr key={project.id} className="hover:bg-card/25 transition-colors">
                     <td className="px-6 py-4 font-semibold text-white">{project.title}</td>
-                    <td className="px-6 py-4">{project.client}</td>
-                    <td className="px-6 py-4">{project.industry}</td>
+                    <td className="px-6 py-4 truncate max-w-xs">{project.description}</td>
                     <td className="px-6 py-4">
-                      <span className="bg-accent-purple/10 text-accent-purple px-2.5 py-1 rounded-md text-xs font-semibold">
-                        {project.format}
-                      </span>
+                      {project.tags && project.tags.slice(0, 2).map((tag, i) => (
+                        <span key={i} className="inline-block bg-accent-purple/10 text-accent-purple px-2 py-0.5 rounded text-[10px] ml-1">
+                          {tag}
+                        </span>
+                      ))}
                     </td>
                     <td className="px-6 py-4 flex justify-end gap-2">
                       <button
@@ -194,86 +186,64 @@ export default function AdminProjectsPage() {
             </div>
 
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-semibold text-foreground mb-1.5">اسم المشروع *</label>
-                  <input
-                    type="text"
-                    required
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-card border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue/50"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-foreground mb-1.5">العميل *</label>
-                  <input
-                    type="text"
-                    required
-                    value={client}
-                    onChange={(e) => setClient(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-card border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue/50"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-semibold text-foreground mb-1.5">مجال العمل *</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="مثال: العقارات، الصحة"
-                    value={industry}
-                    onChange={(e) => setIndustry(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-card border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue/50"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-foreground mb-1.5">نوع العمل / التنسيق *</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="مثال: تطبيق ويب، متجر إلكتروني"
-                    value={format}
-                    onChange={(e) => setFormat(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-card border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue/50"
-                  />
-                </div>
+              <div>
+                <label className="block text-xs font-semibold text-foreground mb-1.5">اسم المشروع *</label>
+                <input
+                  type="text"
+                  required
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  className="w-full px-3 py-2 rounded-xl bg-card border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue/50"
+                />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-foreground mb-1.5">رابط صورة المعاينة</label>
+                <label className="block text-xs font-semibold text-foreground mb-1.5">رابط صورة المعاينة *</label>
                 <input
                   type="text"
+                  required
                   placeholder="https://example.com/image.jpg"
                   value={imageUrl}
                   onChange={(e) => setImageUrl(e.target.value)}
                   className="w-full px-3 py-2 rounded-xl bg-card border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue/50"
+                  dir="ltr"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-foreground mb-1.5">شارة مميزة (Badge)</label>
+                  <label className="block text-xs font-semibold text-foreground mb-1.5">الرابط المباشر للمشروع (Live URL)</label>
                   <input
                     type="text"
-                    placeholder="مثال: جديد، أحدث مشروع"
-                    value={badge}
-                    onChange={(e) => setBadge(e.target.value)}
+                    placeholder="https://live-site.com"
+                    value={liveUrl}
+                    onChange={(e) => setLiveUrl(e.target.value)}
                     className="w-full px-3 py-2 rounded-xl bg-card border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue/50"
+                    dir="ltr"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-foreground mb-1.5">الوسوم (مفصولة بفاصلة)</label>
+                  <label className="block text-xs font-semibold text-foreground mb-1.5">رابط سورس كود Github</label>
                   <input
                     type="text"
-                    placeholder="Next.js, React, Supabase"
-                    value={tagsInput}
-                    onChange={(e) => setTagsInput(e.target.value)}
+                    placeholder="https://github.com/user/repo"
+                    value={githubUrl}
+                    onChange={(e) => setGithubUrl(e.target.value)}
                     className="w-full px-3 py-2 rounded-xl bg-card border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue/50"
+                    dir="ltr"
                   />
                 </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-foreground mb-1.5">الوسوم (مفصولة بفاصلة)</label>
+                <input
+                  type="text"
+                  placeholder="Next.js, React, Supabase"
+                  value={tagsInput}
+                  onChange={(e) => setTagsInput(e.target.value)}
+                  className="w-full px-3 py-2 rounded-xl bg-card border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue/50"
+                />
               </div>
 
               <div>

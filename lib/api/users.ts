@@ -1,114 +1,74 @@
-'use server'
-
-import { createClient } from '@supabase/supabase-js'
-import { revalidatePath } from 'next/cache'
-
-// Use Service Role Key for Admin API access
-function getSupabaseAdmin() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || 'http://localhost:54321',
-    process.env.SUPABASE_SERVICE_ROLE_KEY || 'dummy_key_for_build',
-    {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false
-      }
-    }
-  )
-}
-
 export interface UserData {
   id: string
   email: string
   created_at: string
   last_sign_in_at?: string
-  user_metadata?: {
-    display_name?: string
-    role?: string
-  }
+  user_metadata?: any
 }
 
-export async function getUsers(): Promise<{ users: UserData[], error: any }> {
+export const getUsers = async (): Promise<{ users: UserData[], error: any }> => {
   try {
-    const { data: { users }, error } = await getSupabaseAdmin().auth.admin.listUsers()
-    
-    if (error) throw error
-
-    return { 
-      users: users.map(u => ({
-        id: u.id,
-        email: u.email || '',
-        created_at: u.created_at,
-        last_sign_in_at: u.last_sign_in_at,
-        user_metadata: u.user_metadata
-      })), 
-      error: null 
+    const response = await fetch('/api/admin/users', {
+      method: 'GET',
+      headers: { 'Cache-Control': 'no-cache' }
+    })
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}))
+      return { users: [], error: errorData.error || 'Failed to fetch users' }
     }
+    return await response.json()
   } catch (error: any) {
-    console.error('Error fetching users:', error)
     return { users: [], error: error.message }
   }
 }
 
-export async function createUser(data: { email: string, password?: string, display_name?: string, role?: string }) {
+export const createUser = async (data: { email: string, password?: string, display_name?: string, role?: string }): Promise<{ success: boolean, user?: UserData, error?: string }> => {
   try {
-    const { data: resData, error } = await getSupabaseAdmin().auth.admin.createUser({
-      email: data.email,
-      password: data.password || 'Temporary123!',
-      email_confirm: true,
-      user_metadata: {
-        display_name: data.display_name || '',
-        role: data.role || 'admin'
-      }
+    const response = await fetch('/api/admin/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
     })
-
-    if (error) throw error
-
-    revalidatePath('/admin/users')
-    return { success: true, user: resData.user }
-  } catch (error: any) {
-    console.error('Error creating user:', error)
-    return { success: false, error: error.message }
-  }
-}
-
-export async function updateUser(userId: string, data: { email?: string, password?: string, display_name?: string, role?: string }) {
-  try {
-    const updateData: any = {}
-    if (data.email) updateData.email = data.email
-    if (data.password) updateData.password = data.password
-    
-    if (data.display_name !== undefined || data.role !== undefined) {
-      updateData.user_metadata = {}
-      if (data.display_name !== undefined) updateData.user_metadata.display_name = data.display_name
-      if (data.role !== undefined) updateData.user_metadata.role = data.role
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}))
+      return { success: false, error: errorData.error || 'Failed to create user' }
     }
-
-    const { data: resData, error } = await getSupabaseAdmin().auth.admin.updateUserById(
-      userId,
-      updateData
-    )
-
-    if (error) throw error
-
-    revalidatePath('/admin/users')
-    return { success: true, user: resData.user }
+    const res = await response.json()
+    return { success: true, user: res.user }
   } catch (error: any) {
-    console.error('Error updating user:', error)
     return { success: false, error: error.message }
   }
 }
 
-export async function deleteUser(userId: string) {
+export const updateUser = async (userId: string, data: { email?: string, password?: string, display_name?: string, role?: string }): Promise<{ success: boolean, user?: UserData, error?: string }> => {
   try {
-    const { data, error } = await getSupabaseAdmin().auth.admin.deleteUser(userId)
-    
-    if (error) throw error
+    const response = await fetch('/api/admin/users', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: userId, ...data })
+    })
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}))
+      return { success: false, error: errorData.error || 'Failed to update user' }
+    }
+    const res = await response.json()
+    return { success: true, user: res.user }
+  } catch (error: any) {
+    return { success: false, error: error.message }
+  }
+}
 
-    revalidatePath('/admin/users')
+export const deleteUser = async (userId: string): Promise<{ success: boolean, error?: string }> => {
+  try {
+    const response = await fetch(`/api/admin/users?id=${encodeURIComponent(userId)}`, {
+      method: 'DELETE'
+    })
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}))
+      return { success: false, error: errorData.error || 'Failed to delete user' }
+    }
     return { success: true }
   } catch (error: any) {
-    console.error('Error deleting user:', error)
     return { success: false, error: error.message }
   }
 }

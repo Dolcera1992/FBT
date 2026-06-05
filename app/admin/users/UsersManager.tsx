@@ -1,16 +1,31 @@
 'use client'
 
 import React, { useState } from 'react'
-import { UserData, createUser, updateUser, deleteUser } from '@/lib/api/users'
+import { UserData, getUsers, createUser, updateUser, deleteUser } from '@/lib/api/users'
 import { toast } from 'sonner'
 import { Plus, Trash2, Edit, Shield, Mail, KeyRound, Loader2, User } from 'lucide-react'
 
-export function UsersManager({ initialUsers }: { initialUsers: UserData[] }) {
-  const [users, setUsers] = useState<UserData[]>(initialUsers)
+export function UsersManager() {
+  const [users, setUsers] = useState<UserData[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalMode, setModalMode] = useState<'add' | 'edit'>('add')
   const [editingUserId, setEditingUserId] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  React.useEffect(() => {
+    getUsers().then(res => {
+      if (res.error) {
+        setError(res.error)
+        toast.error(res.error)
+      } else {
+        setUsers(res.users)
+      }
+      setLoading(false)
+    })
+  }, [])
 
   const [formData, setFormData] = useState({
     email: '',

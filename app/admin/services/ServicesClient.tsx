@@ -73,7 +73,7 @@ export default function AdminServicesPage() {
 
     try {
       if (editingService) {
-        await updateService(editingService.id, serviceData)
+        await updateService({ id: editingService.id, ...serviceData } as Service)
       } else {
         await addService(serviceData)
       }

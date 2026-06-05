@@ -1,14 +1,19 @@
-import React from 'react'
+'use client'
+
+import React, { useState, useEffect } from 'react'
 import { FolderKanban, ArrowLeftRight, Settings, ExternalLink } from 'lucide-react'
-import { getProjects } from '@/lib/api/projects'
-import { getServices } from '@/lib/api/services'
+import { getProjects, Project } from '@/lib/api/projects'
+import { getServices, Service } from '@/lib/api/services'
 import Link from 'next/link'
 
-export default async function AdminDashboardOverview() {
-  const [projects, services] = await Promise.all([
-    getProjects(),
-    getServices()
-  ]);
+export default function AdminDashboardOverview() {
+  const [projects, setProjects] = useState<Project[]>([])
+  const [services, setServices] = useState<Service[]>([])
+
+  useEffect(() => {
+    getProjects().then(setProjects).catch(console.error)
+    getServices().then(setServices).catch(console.error)
+  }, [])
 
   return (
     <div className="space-y-8" dir="rtl">
@@ -72,11 +77,13 @@ export default async function AdminDashboardOverview() {
               <div key={project.id} className="py-3 flex justify-between items-center gap-3">
                 <div>
                   <h4 className="font-bold text-white text-sm">{project.title}</h4>
-                  <p className="text-xs text-muted-foreground">{project.client} | {project.industry}</p>
+                  <p className="text-xs text-muted-foreground truncate max-w-[200px]">{project.description}</p>
                 </div>
-                <span className="text-xs font-semibold bg-accent/20 text-accent-foreground px-2.5 py-1 rounded-md shrink-0">
-                  {project.format}
-                </span>
+                {project.tags && project.tags.length > 0 && (
+                  <span className="text-xs font-semibold bg-accent/20 text-accent-foreground px-2.5 py-1 rounded-md shrink-0">
+                    {project.tags[0]}
+                  </span>
+                )}
               </div>
             ))}
           </div>

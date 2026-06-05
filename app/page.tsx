@@ -2,15 +2,13 @@ import { Hero } from '@/components/public/Hero'
 import { Services } from '@/components/public/Services'
 import { Portfolio } from '@/components/public/Portfolio'
 import { Contact } from '@/components/public/Contact'
-import { getServices } from '@/lib/api/services'
-import { getHomepageSettings } from '@/lib/api/settings'
-import { getProjects } from '@/lib/api/projects'
+import { getServerProjects, getServerServices, getServerSettings } from '@/lib/api/server-fetch'
 
 export default async function Home() {
   const [services, settings, projects] = await Promise.all([
-    getServices(),
-    getHomepageSettings(),
-    getProjects()
+    getServerServices(),
+    getServerSettings(),
+    getServerProjects()
   ]);
   
   return (

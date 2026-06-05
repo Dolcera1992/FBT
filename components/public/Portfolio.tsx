@@ -118,8 +118,7 @@ export function Portfolio({ projects, settings }: PortfolioProps) {
                 description={project.description}
                 imageUrl={project.imageUrl || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=800'}
                 badges={[
-                  { text: project.industry, type: 'cat' },
-                  ...(project.badge ? [{ text: project.badge, type: 'sale' as const }] : [])
+                  { text: project.tags?.[0] || 'تطوير', type: 'cat' },
                 ]}
                 tags={project.tags}
                 actionLabel="عرض المشروع"
