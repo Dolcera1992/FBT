@@ -4,6 +4,7 @@ import { motion, Variants } from 'framer-motion'
 import { Project } from '@/lib/api/projects'
 import { HomepageSettings } from '@/lib/api/settings'
 import { ArrowUpRight, Sparkles } from 'lucide-react'
+import { FezCard } from '@/components/ui/FezCard'
 
 interface PortfolioProps {
   projects: Project[];
@@ -110,68 +111,19 @@ export function Portfolio({ projects, settings }: PortfolioProps) {
             <motion.div 
               key={project.id} 
               variants={cardVariants}
-              whileHover={{ 
-                y: -10,
-                boxShadow: '0 25px 50px -12px rgba(139, 92, 246, 0.18)',
-                borderColor: 'rgba(139, 92, 246, 0.35)'
-              }}
-              className="relative bg-card/20 backdrop-blur-xl border border-white/5 rounded-3xl overflow-hidden group flex flex-col transition-all duration-500"
+              className="h-full"
             >
-              {/* Image Container with Zoom hover effect */}
-              <div className="relative aspect-video overflow-hidden">
-                <img
-                  src={project.imageUrl || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=800'}
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-700 ease-out scale-100 group-hover:scale-105"
-                />
-                
-                {/* Overlay on hover */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6" />
-
-                {project.badge && (
-                  <div className="absolute top-4 right-4 z-20">
-                    <span className="glass-effect border border-white/10 rounded-xl px-3.5 py-1.5 text-[11px] font-bold text-white backdrop-blur-md bg-black/40">
-                      {project.badge}
-                    </span>
-                  </div>
-                )}
-              </div>
-
-              {/* Project Details with beautiful styling */}
-              <div className="p-6 lg:p-8 flex-1 flex flex-col relative">
-                {/* Glow behind Details */}
-                <div className="absolute bottom-0 left-0 w-24 h-24 bg-accent-purple/5 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="bg-accent-purple/10 text-accent-purple border border-accent-purple/20 px-3.5 py-1 rounded-full text-[11px] font-bold">
-                    {project.industry}
-                  </span>
-                  <span className="text-xs text-gray-400 font-semibold">
-                    {project.client}
-                  </span>
-                </div>
-                
-                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-accent-purple transition-colors duration-300 tracking-tight flex items-center gap-2">
-                  <span>{project.title}</span>
-                  <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-1 -translate-x-1 group-hover:translate-y-0 group-hover:translate-x-0" />
-                </h3>
-                
-                <p className="text-gray-400 group-hover:text-gray-300 leading-relaxed mb-6 flex-1 text-xs sm:text-sm transition-colors duration-300">
-                  {project.description}
-                </p>
-                
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2 mt-auto pt-4 border-t border-white/5">
-                  {project.tags.map(tag => (
-                    <span 
-                      key={tag} 
-                      className="text-[10px] font-bold bg-white/5 border border-white/5 text-gray-300 px-3 py-1 rounded-lg transition-colors duration-300 group-hover:border-white/10 group-hover:bg-white/10"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
+              <FezCard 
+                title={project.title}
+                description={project.description}
+                imageUrl={project.imageUrl || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=800'}
+                badges={[
+                  { text: project.industry, type: 'cat' },
+                  ...(project.badge ? [{ text: project.badge, type: 'sale' as const }] : [])
+                ]}
+                tags={project.tags}
+                actionLabel="عرض المشروع"
+              />
             </motion.div>
           ))}
         </motion.div>

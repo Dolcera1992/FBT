@@ -4,6 +4,7 @@ import { motion, Variants } from 'framer-motion'
 import { Service } from '@/lib/api/services'
 import { Code, MonitorSmartphone, ShoppingCart, LayoutDashboard, Sparkles } from 'lucide-react'
 import { HomepageSettings } from '@/lib/api/settings'
+import { FezCard } from '@/components/ui/FezCard'
 
 const IconMap: Record<string, React.ElementType> = {
   Code,
@@ -145,36 +146,15 @@ export function Services({ services, settings }: ServicesProps) {
               <motion.div
                 key={service.id}
                 variants={cardVariants}
-                whileHover={{ 
-                  y: -8, 
-                  scale: 1.025,
-                  boxShadow: '0 20px 40px -20px rgba(59, 130, 246, 0.15)',
-                  borderColor: 'rgba(59, 130, 246, 0.35)',
-                }}
-                className="relative bg-card/25 backdrop-blur-xl border border-white/5 p-8 rounded-2xl flex flex-col justify-between h-full group transition-all duration-300"
+                className="h-full"
               >
-                {/* Accent line on hover */}
-                <div className="absolute top-0 inset-x-0 h-1 rounded-t-2xl bg-gradient-to-l from-accent-blue via-accent-purple to-accent-emerald opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                
-                <div>
-                  {/* Icon */}
-                  <div className="w-12 h-12 bg-white/5 border border-white/10 group-hover:border-accent-blue/20 rounded-xl flex items-center justify-center mb-6 group-hover:bg-accent-blue/10 transition-all duration-300">
-                    <IconComponent className="w-5.5 h-5.5 text-gray-300 group-hover:text-accent-blue transition-colors duration-300" />
-                  </div>
-                  
-                  {/* Title */}
-                  <h3 className="text-lg font-bold text-white mb-3 tracking-tight group-hover:text-accent-blue transition-colors duration-300">
-                    {service.title}
-                  </h3>
-                  
-                  {/* Description */}
-                  <p className="text-gray-400 group-hover:text-gray-300 leading-relaxed text-xs sm:text-sm transition-colors duration-300">
-                    {service.description}
-                  </p>
-                </div>
-
-                {/* Subtle card glowing orb behind icon */}
-                <div className="absolute top-0 right-0 w-24 h-24 bg-accent-blue/5 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                <FezCard 
+                  title={service.title}
+                  description={service.description}
+                  icon={<IconComponent className="w-full h-full object-contain" />}
+                  badges={[{ text: 'خدمة تقنية', type: 'cat' }]}
+                  actionLabel="طلب الخدمة"
+                />
               </motion.div>
             );
           })}

@@ -1,0 +1,421 @@
+/* FEZ Card Design Tokens & Styles */
+
+.fezCardWrapper {
+  /* Palette */
+  --clr-card: #1a0f24;
+  --clr-card-hover: #1e1229;
+  --clr-img-well: #110920;
+  --clr-accent: #c084fc;
+  --clr-accent-deep: #9333ea;
+  --clr-glow: rgba(192, 132, 252, 0.28);
+  --clr-glow-strong: rgba(192, 132, 252, 0.60);
+  --clr-text-hi: #f0e6ff;
+  --clr-text-mid: #a78dc0;
+  --clr-text-lo: #604f78;
+  --clr-border-idle: rgba(192, 132, 252, 0.10);
+
+  /* Spacing */
+  --sp-card-pad-x: 1.5rem;
+  --sp-card-pad-y: 1.4rem;
+  --sp-img-h: 172px; /* product image well height */
+
+  /* Radii */
+  --r-card: 22px;
+  --r-body: 20px; /* = r-card minus border width */
+  --r-btn: 12px;
+  --r-pill: 100px;
+
+  /* Motion */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --t-fast: 0.32s;
+  --t-mid: 0.52s;
+  --t-slow: 0.78s;
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+  
+  padding: 2px;
+  border-radius: var(--r-card);
+  display: flex;
+  flex-direction: column;
+  isolation: isolate;
+  
+  box-shadow: 
+    0 2px 16px rgba(0,0,0, .55), 
+    0 0 0 1px var(--clr-border-idle);
+    
+  transition: 
+    transform var(--t-mid) var(--ease),
+    box-shadow var(--t-mid) var(--ease);
+}
+
+.fezCardWrapper:hover {
+  transform: translateY(-10px);
+  box-shadow: 
+    0 32px 64px rgba(0,0,0, .72), 
+    0 0 0 1px transparent;
+}
+
+/* Neon conic border - fades in on hover */
+.fezCardWrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(
+    from 190deg at 50% 50%,
+    transparent 0deg,
+    var(--clr-accent-deep) 65deg,
+    var(--clr-accent) 125deg,
+    #e879f9 185deg,
+    var(--clr-accent) 245deg,
+    var(--clr-accent-deep) 305deg,
+    transparent 360deg
+  );
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--t-mid) var(--ease);
+}
+
+.fezCardWrapper:hover::before {
+  opacity: 1;
+}
+
+/* Ambient blurred halo - fades in on hover */
+.fezCardWrapper::after {
+  content: '';
+  position: absolute;
+  inset: -16px;
+  border-radius: calc(var(--r-card) + 10px);
+  background: radial-gradient(
+    ellipse 65% 45% at 50% 105%,
+    var(--clr-glow) 0%, transparent 70%
+  );
+  opacity: 0;
+  filter: blur(22px);
+  pointer-events: none;
+  z-index: -1;
+  transition: opacity var(--t-mid) var(--ease);
+}
+
+.fezCardWrapper:hover::after {
+  opacity: 1;
+}
+
+.cardBody {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--clr-card);
+  border-radius: var(--r-body);
+  overflow: hidden;
+  position: relative;
+  transition: background var(--t-mid) var(--ease);
+}
+
+.fezCardWrapper:hover .cardBody {
+  background: var(--clr-card-hover);
+}
+
+/* Decorative background shapes */
+.cardBody::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(192, 132, 252, .10) 0%, transparent 70%);
+  filter: blur(22px);
+  transform: translate(0,0) scale(1);
+  transition: transform var(--t-slow) var(--ease);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.cardBody::after {
+  content: '';
+  position: absolute;
+  bottom: 90px;
+  left: -22px;
+  width: 88px;
+  height: 88px;
+  background: linear-gradient(135deg, rgba(192, 132, 252, .07) 0%, transparent 60%);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  transform: rotate(0deg);
+  transition: transform var(--t-slow) var(--ease);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.fezCardWrapper:hover .cardBody::before {
+  transform: translate(-8px, 8px) scale(1.18);
+}
+
+.fezCardWrapper:hover .cardBody::after {
+  transform: rotate(18deg) translate(5px, -5px);
+}
+
+.imgWrap {
+  position: relative;
+  width: 100%;
+  height: var(--sp-img-h);
+  flex-shrink: 0;
+  background: var(--clr-img-well);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.imgWrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 75% 70% at 50% 35%, rgba(192,132,252,.13) 0%, transparent 70%);
+  transition: opacity var(--t-mid) var(--ease);
+  z-index: 1;
+}
+
+.fezCardWrapper:hover .imgWrap::before {
+  opacity: 1.4;
+}
+
+.imgWrap::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(to top, var(--clr-card), transparent);
+  transition: background var(--t-mid) var(--ease);
+  z-index: 2;
+}
+
+.fezCardWrapper:hover .imgWrap::after {
+  background: linear-gradient(to top, var(--clr-card-hover), transparent);
+}
+
+.projectImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--t-slow) var(--ease);
+  z-index: 1;
+  position: relative;
+}
+
+.fezCardWrapper:hover .projectImage {
+  transform: scale(1.05);
+}
+
+.imgIcon {
+  position: relative;
+  z-index: 3;
+  width: 56px;
+  height: 56px;
+  color: var(--clr-accent);
+  opacity: .40;
+  transition: 
+    opacity var(--t-mid) var(--ease),
+    transform var(--t-mid) var(--ease),
+    filter var(--t-mid) var(--ease);
+}
+
+.fezCardWrapper:hover .imgIcon {
+  opacity: .80;
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 10px var(--clr-glow-strong));
+}
+
+.badges {
+  position: absolute;
+  top: 11px;
+  left: 11px;
+  right: 11px;
+  z-index: 4;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.badge {
+  font-size: .60rem;
+  font-weight: 700;
+  letter-spacing: .10em;
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+}
+
+.badgeCat {
+  color: var(--clr-text-hi);
+  background: rgba(15, 8, 20, .70);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(192, 132, 252, .12);
+}
+
+.badgeSale {
+  color: #fde68a;
+  background: rgba(234, 179, 8, .13);
+  border: 1px solid rgba(234, 179, 8, .26);
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1.15rem var(--sp-card-pad-x) 0;
+  gap: .5rem;
+  z-index: 1;
+}
+
+.name {
+  font-family: 'Cairo', 'Syne', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.3;
+  background: linear-gradient(135deg, #f0e6ff 0%, var(--clr-accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: filter var(--t-fast) ease;
+  margin-bottom: 0.5rem;
+}
+
+.fezCardWrapper:hover .name {
+  filter: brightness(1.12);
+}
+
+.desc {
+  flex: 1;
+  font-size: .86rem;
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--clr-text-mid);
+  transition: color var(--t-fast) ease;
+}
+
+.fezCardWrapper:hover .desc {
+  color: #baa8d6;
+}
+
+.footer {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: .9rem;
+  padding: 1rem var(--sp-card-pad-x) var(--sp-card-pad-y);
+  z-index: 1;
+}
+
+.rule {
+  height: 1px;
+  background: linear-gradient(90deg, 
+    rgba(192, 132, 252, .16), rgba(192, 132, 252, .04) 65%, transparent);
+  transition: background var(--t-fast) ease;
+}
+
+.fezCardWrapper:hover .rule {
+  background: linear-gradient(90deg, 
+    rgba(192, 132, 252, .38), rgba(192, 132, 252, .06) 65%, transparent);
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  width: 100%;
+  font-family: 'Cairo', 'DM Sans', sans-serif;
+  font-size: .875rem;
+  font-weight: 700;
+  color: var(--clr-accent);
+  background: rgba(192, 132, 252, .08);
+  border: 1px solid rgba(192, 132, 252, .20);
+  padding: .68rem 1.25rem;
+  border-radius: var(--r-btn);
+  position: relative;
+  overflow: hidden;
+  transition: 
+    background var(--t-fast) var(--ease),
+    border-color var(--t-fast) var(--ease),
+    color var(--t-fast) var(--ease),
+    box-shadow var(--t-fast) var(--ease),
+    gap var(--t-fast) var(--ease);
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, rgba(255, 255, 255, .06), transparent);
+  transition: left .55s var(--ease);
+}
+
+.btn:hover::before {
+  left: 170%;
+}
+
+.btn:hover {
+  background: rgba(192, 132, 252, .18);
+  border-color: rgba(192, 132, 252, .55);
+  color: #e9d5ff;
+  box-shadow: 0 0 22px rgba(192, 132, 252, .20);
+  gap: .7rem;
+}
+
+.btn:active {
+  transform: scale(.98);
+}
+
+.btnIcon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  transition: transform var(--t-fast) var(--ease);
+}
+
+.btn:hover .btnIcon {
+  transform: scale(1.18);
+}
+
+.trust {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.trustItem {
+  display: flex;
+  align-items: center;
+  gap: .28rem;
+  font-size: .66rem;
+  font-weight: 600;
+  color: var(--clr-text-lo);
+  background: rgba(192, 132, 252, .05);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(192, 132, 252, .08);
+  transition: color var(--t-fast) ease, border-color var(--t-fast) ease;
+}
+
+.fezCardWrapper:hover .trustItem {
+  color: var(--clr-text-mid);
+  border-color: rgba(192, 132, 252, .2);
+}

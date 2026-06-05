@@ -4,16 +4,18 @@ import { createClient } from '@supabase/supabase-js'
 import { revalidatePath } from 'next/cache'
 
 // Use Service Role Key for Admin API access
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false
+function getSupabaseAdmin() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || 'http://localhost:54321',
+    process.env.SUPABASE_SERVICE_ROLE_KEY || 'dummy_key_for_build',
+    {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false
+      }
     }
-  }
-)
+  )
+}
 
 export interface UserData {
   id: string
@@ -28,7 +30,7 @@ export interface UserData {
 
 export async function getUsers(): Promise<{ users: UserData[], error: any }> {
   try {
-    const { data: { users }, error } = await supabaseAdmin.auth.admin.listUsers()
+    const { data: { users }, error } = await getSupabaseAdmin().auth.admin.listUsers()
     
     if (error) throw error
 
@@ -50,7 +52,7 @@ export async function getUsers(): Promise<{ users: UserData[], error: any }> {
 
 export async function createUser(data: { email: string, password?: string, display_name?: string, role?: string }) {
   try {
-    const { data: resData, error } = await supabaseAdmin.auth.admin.createUser({
+    const { data: resData, error } = await getSupabaseAdmin().auth.admin.createUser({
       email: data.email,
       password: data.password || 'Temporary123!',
       email_confirm: true,
@@ -82,7 +84,7 @@ export async function updateUser(userId: string, data: { email?: string, passwor
       if (data.role !== undefined) updateData.user_metadata.role = data.role
     }
 
-    const { data: resData, error } = await supabaseAdmin.auth.admin.updateUserById(
+    const { data: resData, error } = await getSupabaseAdmin().auth.admin.updateUserById(
       userId,
       updateData
     )
@@ -99,7 +101,7 @@ export async function updateUser(userId: string, data: { email?: string, passwor
 
 export async function deleteUser(userId: string) {
   try {
-    const { data, error } = await supabaseAdmin.auth.admin.deleteUser(userId)
+    const { data, error } = await getSupabaseAdmin().auth.admin.deleteUser(userId)
     
     if (error) throw error
 
