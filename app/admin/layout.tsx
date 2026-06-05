@@ -16,9 +16,14 @@ export default function AdminLayout({
     { name: 'الرئيسية (لوحة التحكم)', href: '/admin', icon: LayoutDashboard },
     { name: 'إدارة المشاريع', href: '/admin/projects', icon: FolderKanban },
     { name: 'إدارة الخدمات', href: '/admin/services', icon: ArrowLeftRight },
+    { name: 'إدارة المستخدمين', href: '/admin/users', icon: ShieldCheck },
     { name: 'إعدادات الموقع', href: '/admin/settings', icon: Settings },
     { name: 'مكتبة الوسائط', href: '/admin/media', icon: Image },
   ]
+
+  if (pathname === '/admin/login') {
+    return <>{children}</>;
+  }
 
   return (
     <div className="min-h-screen bg-[#070708] text-foreground flex" dir="rtl">
