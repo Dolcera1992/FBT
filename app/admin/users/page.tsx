@@ -2,6 +2,7 @@ import { getUsers } from '@/lib/api/users'
 import { UsersManager } from './UsersManager'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'edge'
 
 export default async function UsersPage() {
   const { users, error } = await getUsers()
