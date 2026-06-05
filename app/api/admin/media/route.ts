@@ -20,9 +20,9 @@ export async function GET() {
       id: row.id,
       name: row.name,
       url: row.url,
-      fileType: row.file_type,
+      fileType: row.type,
       size: row.size,
-      storagePath: row.storage_path,
+      storagePath: row.path,
       createdAt: row.created_at,
     }))
 
@@ -84,9 +84,9 @@ export async function POST(request: Request) {
       .insert({
         name: file.name, // Original name
         url: publicUrl,
-        file_type: file.type,
+        type: file.type,
         size: file.size,
-        storage_path: fileName // actual storage name
+        path: fileName // actual storage name
       })
       .select()
       .single()
@@ -101,9 +101,9 @@ export async function POST(request: Request) {
       id: dbData.id,
       name: dbData.name,
       url: dbData.url,
-      fileType: dbData.file_type,
+      fileType: dbData.type,
       size: dbData.size,
-      storagePath: dbData.storage_path,
+      storagePath: dbData.path,
       createdAt: dbData.created_at,
     })
   } catch (err: any) {
