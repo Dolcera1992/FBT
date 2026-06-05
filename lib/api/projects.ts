@@ -1,4 +1,19 @@
-import { createClient } from '@/lib/supabase/client'
+'use server'
+
+import { createClient } from '@supabase/supabase-js'
+
+function getSupabaseAdmin() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || 'http://localhost:54321',
+    process.env.SUPABASE_SERVICE_ROLE_KEY || 'dummy_key_for_build',
+    {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false
+      }
+    }
+  )
+}
 
 export interface Project {
   id: string;
@@ -59,7 +74,7 @@ const mapProjectRow = (row: any): Project => ({
 })
 
 export const getProjects = async (): Promise<Project[]> => {
-  const supabase = createClient()
+  const supabase = getSupabaseAdmin()
   const { data, error } = await supabase
     .from('projects')
     .select('*')
@@ -74,7 +89,7 @@ export const getProjects = async (): Promise<Project[]> => {
 }
 
 export const addProject = async (project: Omit<Project, 'id'>): Promise<Project> => {
-  const supabase = createClient()
+  const supabase = getSupabaseAdmin()
   const { data, error } = await supabase
     .from('projects')
     .insert({
@@ -109,7 +124,7 @@ export const updateProject = async (id: string, updatedData: Partial<Project>): 
   if (updatedData.badge !== undefined) updatePayload.badge = updatedData.badge || null
   if (updatedData.tags !== undefined) updatePayload.tags = updatedData.tags
 
-  const supabase = createClient()
+  const supabase = getSupabaseAdmin()
   const { data, error } = await supabase
     .from('projects')
     .update(updatePayload)
@@ -126,7 +141,7 @@ export const updateProject = async (id: string, updatedData: Partial<Project>): 
 }
 
 export const deleteProject = async (id: string): Promise<boolean> => {
-  const supabase = createClient()
+  const supabase = getSupabaseAdmin()
   const { error } = await supabase
     .from('projects')
     .delete()

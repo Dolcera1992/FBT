@@ -1,4 +1,19 @@
-import { createClient } from '@/lib/supabase/client'
+'use server'
+
+import { createClient } from '@supabase/supabase-js'
+
+function getSupabaseAdmin() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || 'http://localhost:54321',
+    process.env.SUPABASE_SERVICE_ROLE_KEY || 'dummy_key_for_build',
+    {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false
+      }
+    }
+  )
+}
 
 export interface HomepageSettings {
   heroVideoUrl: string;
@@ -33,7 +48,7 @@ const mapSettingsRow = (row: any): HomepageSettings => ({
 })
 
 export const getHomepageSettings = async (): Promise<HomepageSettings> => {
-  const supabase = createClient()
+  const supabase = getSupabaseAdmin()
   const { data, error } = await supabase
     .from('homepage_settings')
     .select('*')
@@ -82,7 +97,7 @@ export const updateHomepageSettings = async (settings: Partial<HomepageSettings>
   if (settings.contactTitle !== undefined) updatePayload.contact_title = settings.contactTitle
   if (settings.contactDesc !== undefined) updatePayload.contact_desc = settings.contactDesc
 
-  const supabase = createClient()
+  const supabase = getSupabaseAdmin()
   const { data, error } = await supabase
     .from('homepage_settings')
     .upsert({ id: 1, ...updatePayload })

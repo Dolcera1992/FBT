@@ -1,4 +1,19 @@
-import { createClient } from '@/lib/supabase/client'
+'use server'
+
+import { createClient } from '@supabase/supabase-js'
+
+function getSupabaseAdmin() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || 'http://localhost:54321',
+    process.env.SUPABASE_SERVICE_ROLE_KEY || 'dummy_key_for_build',
+    {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false
+      }
+    }
+  )
+}
 
 export interface Service {
   id: string;
@@ -42,7 +57,7 @@ const mapServiceRow = (row: any): Service => ({
 })
 
 export const getServices = async (): Promise<Service[]> => {
-  const supabase = createClient()
+  const supabase = getSupabaseAdmin()
   const { data, error } = await supabase
     .from('services')
     .select('*')
@@ -57,7 +72,7 @@ export const getServices = async (): Promise<Service[]> => {
 }
 
 export const addService = async (service: Omit<Service, 'id'>): Promise<Service> => {
-  const supabase = createClient()
+  const supabase = getSupabaseAdmin()
   const { data, error } = await supabase
     .from('services')
     .insert({
@@ -82,7 +97,7 @@ export const updateService = async (id: string, updatedData: Partial<Service>): 
   if (updatedData.description !== undefined) updatePayload.description = updatedData.description
   if (updatedData.icon !== undefined) updatePayload.icon = updatedData.icon
 
-  const supabase = createClient()
+  const supabase = getSupabaseAdmin()
   const { data, error } = await supabase
     .from('services')
     .update(updatePayload)
