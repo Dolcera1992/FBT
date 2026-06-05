@@ -72,42 +72,31 @@ export async function POST(request: Request) {
     const supabase = getSupabaseAdmin()
     
     const dbPayload: any = {
-      hero_video_url: body.heroVideoUrl,
-      hero_headline_1: body.heroHeadline1,
-      hero_headline_2: body.heroHeadline2,
-      hero_headline_3: body.heroHeadline3,
-      services_sub: body.servicesSub,
-      services_title: body.servicesTitle,
-      services_desc: body.servicesDesc,
-      portfolio_sub: body.portfolioSub,
-      portfolio_title: body.portfolioTitle,
-      portfolio_desc: body.portfolioDesc,
-      contact_sub: body.contactSub,
-      contact_title: body.contactTitle,
-      contact_desc: body.contactDesc,
-      contact_whatsapp: body.contactWhatsapp,
-      contact_phone: body.contactPhone,
-      contact_email: body.contactEmail,
-      global_color_preset: body.globalColorPreset,
       updated_at: new Date().toISOString()
     }
 
-    // Only add if explicitly provided to avoid breaking if column doesn't exist initially
-    if (body.heroBgImage !== undefined) {
-      dbPayload.hero_bg_image = body.heroBgImage
-    }
-    if (body.cardBgColor !== undefined) {
-      dbPayload.card_bg_color = body.cardBgColor
-    }
-    if (body.cardTextColor !== undefined) {
-      dbPayload.card_text_color = body.cardTextColor
-    }
-    if (body.cardAccentColor !== undefined) {
-      dbPayload.card_accent_color = body.cardAccentColor
-    }
-    if (body.fontFamily !== undefined) {
-      dbPayload.font_family = body.fontFamily
-    }
+    if (body.heroVideoUrl !== undefined) dbPayload.hero_video_url = body.heroVideoUrl
+    if (body.heroHeadline1 !== undefined) dbPayload.hero_headline_1 = body.heroHeadline1
+    if (body.heroHeadline2 !== undefined) dbPayload.hero_headline_2 = body.heroHeadline2
+    if (body.heroHeadline3 !== undefined) dbPayload.hero_headline_3 = body.heroHeadline3
+    if (body.servicesSub !== undefined) dbPayload.services_sub = body.servicesSub
+    if (body.servicesTitle !== undefined) dbPayload.services_title = body.servicesTitle
+    if (body.servicesDesc !== undefined) dbPayload.services_desc = body.servicesDesc
+    if (body.portfolioSub !== undefined) dbPayload.portfolio_sub = body.portfolioSub
+    if (body.portfolioTitle !== undefined) dbPayload.portfolio_title = body.portfolioTitle
+    if (body.portfolioDesc !== undefined) dbPayload.portfolio_desc = body.portfolioDesc
+    if (body.contactSub !== undefined) dbPayload.contact_sub = body.contactSub
+    if (body.contactTitle !== undefined) dbPayload.contact_title = body.contactTitle
+    if (body.contactDesc !== undefined) dbPayload.contact_desc = body.contactDesc
+    if (body.contactWhatsapp !== undefined) dbPayload.contact_whatsapp = body.contactWhatsapp
+    if (body.contactPhone !== undefined) dbPayload.contact_phone = body.contactPhone
+    if (body.contactEmail !== undefined) dbPayload.contact_email = body.contactEmail
+    if (body.globalColorPreset !== undefined) dbPayload.global_color_preset = body.globalColorPreset
+    if (body.heroBgImage !== undefined) dbPayload.hero_bg_image = body.heroBgImage
+    if (body.cardBgColor !== undefined) dbPayload.card_bg_color = body.cardBgColor
+    if (body.cardTextColor !== undefined) dbPayload.card_text_color = body.cardTextColor
+    if (body.cardAccentColor !== undefined) dbPayload.card_accent_color = body.cardAccentColor
+    if (body.fontFamily !== undefined) dbPayload.font_family = body.fontFamily
 
     const { data, error } = await supabase
       .from('homepage_settings')
