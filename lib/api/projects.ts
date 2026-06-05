@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase'
+import { createClient } from '@/lib/supabase/client'
 
 export interface Project {
   id: string;
@@ -59,6 +59,7 @@ const mapProjectRow = (row: any): Project => ({
 })
 
 export const getProjects = async (): Promise<Project[]> => {
+  const supabase = createClient()
   const { data, error } = await supabase
     .from('projects')
     .select('*')
@@ -73,6 +74,7 @@ export const getProjects = async (): Promise<Project[]> => {
 }
 
 export const addProject = async (project: Omit<Project, 'id'>): Promise<Project> => {
+  const supabase = createClient()
   const { data, error } = await supabase
     .from('projects')
     .insert({
@@ -107,6 +109,7 @@ export const updateProject = async (id: string, updatedData: Partial<Project>): 
   if (updatedData.badge !== undefined) updatePayload.badge = updatedData.badge || null
   if (updatedData.tags !== undefined) updatePayload.tags = updatedData.tags
 
+  const supabase = createClient()
   const { data, error } = await supabase
     .from('projects')
     .update(updatePayload)
@@ -123,6 +126,7 @@ export const updateProject = async (id: string, updatedData: Partial<Project>): 
 }
 
 export const deleteProject = async (id: string): Promise<boolean> => {
+  const supabase = createClient()
   const { error } = await supabase
     .from('projects')
     .delete()

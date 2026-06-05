@@ -78,14 +78,18 @@ export default function AdminProjectsPage() {
       tags
     }
 
-    if (editingProject) {
-      await updateProject(editingProject.id, projectData)
-    } else {
-      await addProject(projectData)
-    }
+    try {
+      if (editingProject) {
+        await updateProject(editingProject.id, projectData)
+      } else {
+        await addProject(projectData)
+      }
 
-    setIsModalOpen(false)
-    fetchProjects()
+      setIsModalOpen(false)
+      fetchProjects()
+    } catch (error: any) {
+      alert(`حدث خطأ أثناء الحفظ: ${error.message || 'يرجى المحاولة لاحقاً'}`)
+    }
   }
 
   const handleDelete = async (id: string) => {

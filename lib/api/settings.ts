@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase'
+import { createClient } from '@/lib/supabase/client'
 
 export interface HomepageSettings {
   heroVideoUrl: string;
@@ -33,6 +33,7 @@ const mapSettingsRow = (row: any): HomepageSettings => ({
 })
 
 export const getHomepageSettings = async (): Promise<HomepageSettings> => {
+  const supabase = createClient()
   const { data, error } = await supabase
     .from('homepage_settings')
     .select('*')
@@ -81,6 +82,7 @@ export const updateHomepageSettings = async (settings: Partial<HomepageSettings>
   if (settings.contactTitle !== undefined) updatePayload.contact_title = settings.contactTitle
   if (settings.contactDesc !== undefined) updatePayload.contact_desc = settings.contactDesc
 
+  const supabase = createClient()
   const { data, error } = await supabase
     .from('homepage_settings')
     .upsert({ id: 1, ...updatePayload })

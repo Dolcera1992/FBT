@@ -64,14 +64,18 @@ export default function AdminServicesPage() {
       icon
     }
 
-    if (editingService) {
-      await updateService(editingService.id, serviceData)
-    } else {
-      await addService(serviceData)
-    }
+    try {
+      if (editingService) {
+        await updateService(editingService.id, serviceData)
+      } else {
+        await addService(serviceData)
+      }
 
-    setIsModalOpen(false)
-    fetchServices()
+      setIsModalOpen(false)
+      fetchServices()
+    } catch (error: any) {
+      alert(`حدث خطأ أثناء الحفظ: ${error.message || 'يرجى المحاولة لاحقاً'}`)
+    }
   }
 
   const handleDelete = async (id: string) => {

@@ -77,9 +77,14 @@ export default function AdminSettingsPage() {
       contactDesc
     }
 
-    await updateHomepageSettings(updated)
-    alert('تم حفظ إعدادات الصفحة الرئيسية بنجاح!')
-    setSaving(false)
+    try {
+      await updateHomepageSettings(updated)
+      alert('تم حفظ إعدادات الصفحة الرئيسية بنجاح!')
+    } catch (error: any) {
+      alert(`حدث خطأ أثناء الحفظ: ${error.message || 'يرجى المحاولة لاحقاً'}`)
+    } finally {
+      setSaving(false)
+    }
   }
 
   if (loading) {
