@@ -1,3 +1,4 @@
+export const runtime = 'edge'
 import MediaClient from './MediaClient'
 
 export const dynamic = 'force-dynamic'

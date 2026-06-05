@@ -1,3 +1,4 @@
+export const runtime = 'edge'
 import ProjectsClient from './ProjectsClient'
 
 export const dynamic = 'force-dynamic'

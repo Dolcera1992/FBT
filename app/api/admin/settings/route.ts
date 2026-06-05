@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { getSupabaseAdmin } from '@/lib/supabase/admin'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'edge'
 
 const DEFAULT_SETTINGS = {
   heroVideoUrl: "https://mojli.s3.us-east-2.amazonaws.com/Mojli+Website+upscaled+(12mb).webm",

@@ -1,3 +1,4 @@
+export const runtime = 'edge'
 import SettingsClient from './SettingsClient'
 
 export const dynamic = 'force-dynamic'
