@@ -12,6 +12,9 @@ const rubik = Rubik({ variable: "--font-rubik", subsets: ["arabic", "latin"] });
 export const metadata: Metadata = {
   title: "FBT.sa | معرض الأعمال الشخصي",
   description: "الموقع الشخصي ومعرض أعمال FBT.sa لمشاريع تطوير الويب والخدمات التقنية.",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 import { Toaster } from 'sonner';
