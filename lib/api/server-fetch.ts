@@ -4,33 +4,54 @@ import { Service } from './services'
 import { HomepageSettings } from './settings'
 
 export async function getServerProjects(): Promise<Project[]> {
-  const supabase = getSupabaseAdmin()
-  const { data } = await supabase.from('projects').select('*').order('created_at', { ascending: true })
-  
-  return (data || []).map((row: any) => ({
-    id: row.id,
-    title: row.title,
-    description: row.description,
-    tags: row.tags || [],
-    imageUrl: row.image_url,
-    liveUrl: row.live_url,
-    githubUrl: row.github_url,
-    colorPreset: row.color_preset,
-  }))
+  try {
+    const supabase = getSupabaseAdmin()
+    const { data, error } = await supabase.from('projects').select('*').order('created_at', { ascending: true })
+    
+    if (error) {
+      console.error('Error fetching server projects:', error.message)
+      return []
+    }
+
+    return (data || []).map((row: any) => ({
+      id: row.id,
+      title: row.title,
+      description: row.description,
+      tags: row.tags || [],
+      imageUrl: row.image_url,
+      liveUrl: row.live_url,
+      githubUrl: row.github_url,
+      colorPreset: row.color_preset,
+    }))
+  } catch (err: any) {
+    console.error('Fatal error fetching server projects:', err.message || err)
+    return []
+  }
 }
 
 export async function getServerServices(): Promise<Service[]> {
-  const supabase = getSupabaseAdmin()
-  const { data } = await supabase.from('services').select('*').order('created_at', { ascending: true })
-  
-  return (data || []).map((row: any) => ({
-    id: row.id,
-    title: row.title,
-    description: row.description,
-    icon: row.icon,
-    colorPreset: row.color_preset,
-  }))
+  try {
+    const supabase = getSupabaseAdmin()
+    const { data, error } = await supabase.from('services').select('*').order('created_at', { ascending: true })
+    
+    if (error) {
+      console.error('Error fetching server services:', error.message)
+      return []
+    }
+
+    return (data || []).map((row: any) => ({
+      id: row.id,
+      title: row.title,
+      description: row.description,
+      icon: row.icon,
+      colorPreset: row.color_preset,
+    }))
+  } catch (err: any) {
+    console.error('Fatal error fetching server services:', err.message || err)
+    return []
+  }
 }
+
 
 export async function getServerSettings(): Promise<HomepageSettings> {
   const DEFAULT_SETTINGS = {
